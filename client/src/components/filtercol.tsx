@@ -14,6 +14,7 @@ export function FilterColumn() {
         <FilterCondition title={"Price"} options={["1", "2", "3"]} />
         <FilterCondition title={"Rating"} options={["1", "2", "3"]} />
         <FilterCondition title={"Discount"} options={["1", "2", "3"]} />
+        <FilterCondition title={"Category"} options={["1", "2", "3"]} />
       </CardContent>
     </Card>
   );

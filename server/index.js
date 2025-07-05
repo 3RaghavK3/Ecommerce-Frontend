@@ -14,14 +14,23 @@ const options = {
   method: "GET",
 };
 
+const sortMappings = {
+  default: { sortBy: "id", order: "asc" },
+  priceLowToHigh: { sortBy: "price", order: "asc" },
+  priceHighToLow: { sortBy: "price", order: "desc" },
+  ratingHighToLow: { sortBy: "rating", order: "desc" },
+  discountHighToLow: { sortBy: "discountPercentage", order: "desc" },
+};
+
+
+
 app.get('/products', async (req, res) => {
-        const sortstate=req.query.sortstate 
-        const page=parseInt(req.query.page)||1
-        const skip = (page-1)*limit
-
-
+        const sortkey=req.query.sortstate;
+        console.log(sortkey);
+        const page=parseInt(req.query.page);
+        const skip=(page-1)*limit
   try {
-    const response = await fetch(`https://dummyjson.com/products?limit=${limit}&skip=${skip}`, options);
+    const response = await fetch(`https://dummyjson.com/products?limit=${limit}&skip=${skip}&sortBy=${sortMappings[sortkey].sortBy}&order=${sortMappings[sortkey].order}`, options);
     const data = await response.json();
 
     if (!response.ok) {
