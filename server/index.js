@@ -23,15 +23,25 @@ const sortMappings = {
 };
 
 
-
 app.get('/products', async (req, res) => {
         const sortkey=req.query.sortstate;
-        console.log(sortkey);
-        const page=parseInt(req.query.page);
+        const page=parseInt(req.query.page); 
+        const userquery=req.query.userquery.trim()
+        
         const skip=(page-1)*limit
   try {
-    const response = await fetch(`https://dummyjson.com/products?limit=${limit}&skip=${skip}&sortBy=${sortMappings[sortkey].sortBy}&order=${sortMappings[sortkey].order}`, options);
-    const data = await response.json();
+      let url
+      if(userquery.length>0){
+        console.log(page)
+        url=`https://dummyjson.com/products/search?q=${userquery}&limit=${limit}&skip=${skip}`
+      }
+      else{
+        url=`https://dummyjson.com/products?limit=${limit}&skip=${skip}&sortBy=${sortMappings[sortkey].sortBy}&order=${sortMappings[sortkey].order}`
+      }
+      
+      const response = await fetch(url, options);
+      const data = await response.json();
+
 
     if (!response.ok) {
       return res.status(response.status).json({
@@ -44,7 +54,9 @@ app.get('/products', async (req, res) => {
       success: true,
       message: "Data retrieved successfully",
       data,
+      total:data.total
     });
+    
   } catch (error) {
     console.error(error);
     res.status(500).json({
@@ -57,3 +69,5 @@ app.get('/products', async (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });
+
+

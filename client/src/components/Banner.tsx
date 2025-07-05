@@ -17,7 +17,7 @@ export function Banner() {
           <Button className="bg-primary w-fit p-5">Shop Now</Button>
         </div>
 
-        <div className="h-[100%] flex-1 border border-2">
+        <div className="h-[100%] flex-1 ">
           <img src={banneritem} className="w-full h-full object-contain" />
         </div>
       </div>
