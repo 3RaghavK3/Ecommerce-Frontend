@@ -75,7 +75,7 @@ export default function Market() {
   const [inputValue,setInputValue]=useState("")
   const UserSearch=useRef(null)
   const totalPages=useRef(null)
-  const limit=import.meta.env.VITE_PER_PAGE || 9
+  const limit = Number(import.meta.env.VITE_PER_PAGE) || 9;
 
   useEffect(() => {
     fetch(`http://localhost:3000/products?page=${page}&sortstate=${sort}&userquery=${inputValue}`)
@@ -83,7 +83,6 @@ export default function Market() {
       .then((x) => {
         setmarket(x.data.products);
         settotalproducts(x.total)
-        
         totalPages.current = Math.ceil(x.data.total /limit);
       })
       .catch((err) => {
@@ -131,6 +130,8 @@ export default function Market() {
                   priceHighToLow: "Price: High to Low",
                   ratingHighToLow: "Rating: High to Low",
                   discountHighToLow: "Discount: High to Low",
+                  alphaasc:"Alphabetical(A-Z)",
+                  alphadesc:"Alphabetical(Z-A)"
                 }[sort]}</DropdownMenuTrigger>
                 <div>{isOpen ? <ChevronDown /> : <ChevronRight />}</div>
                 <DropdownMenuContent>
@@ -140,6 +141,8 @@ export default function Market() {
                       priceHighToLow: "Price: High to Low",
                       ratingHighToLow: "Rating: High to Low",
                       discountHighToLow: "Discount: High to Low",
+                      alphaasc:"Alphabetical(A-Z)",
+                      alphadesc:"Alphabetical(Z-A)"
                     }).map(([key, value]) => (
                     <DropdownMenuItem
                       key={key}

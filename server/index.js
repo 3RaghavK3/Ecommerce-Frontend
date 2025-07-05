@@ -20,6 +20,8 @@ const sortMappings = {
   priceHighToLow: { sortBy: "price", order: "desc" },
   ratingHighToLow: { sortBy: "rating", order: "desc" },
   discountHighToLow: { sortBy: "discountPercentage", order: "desc" },
+  alphaasc:{ sortBy: "title", order: "asc" },
+  alphadesc:{ sortBy: "title", order: "desc" }
 };
 
 
@@ -33,7 +35,7 @@ app.get('/products', async (req, res) => {
       let url
       if(userquery.length>0){
         console.log(page)
-        url=`https://dummyjson.com/products/search?q=${userquery}&limit=${limit}&skip=${skip}`
+        url=`https://dummyjson.com/products/search?q=${userquery}&limit=${limit}&skip=${skip}&sortBy=${sortMappings[sortkey].sortBy}&order=${sortMappings[sortkey].order}`
       }
       else{
         url=`https://dummyjson.com/products?limit=${limit}&skip=${skip}&sortBy=${sortMappings[sortkey].sortBy}&order=${sortMappings[sortkey].order}`
