@@ -5,18 +5,14 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Card,
-  CardAction,
   CardContent,
   CardDescription,
   CardFooter,
-  CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { Heart } from "lucide-react";
@@ -31,9 +27,64 @@ import {
 } from "@/components/ui/pagination";
 
 export function Market() {
-  const warehouse = [...Array(9).keys()];
-  const [isOpen, setIsOpen] = useState(false);
+     type Item = {
+  id: number;
+  title: string;
+  description: string;
+  category: string;
+  price: number;
+  discountPercentage: number;
+  rating: number;
+  stock: number;
+  tags: string[];
+  brand: string;
+  sku: string;
+  weight: number;
+  dimensions: {
+    width: number;
+    height: number;
+    depth: number;
+  };
+  warrantyInformation: string;
+  shippingInformation: string;
+  availabilityStatus: string;
+  reviews: {
+    rating: number;
+    comment: string;
+    date: string;
+    reviewerName: string;
+    reviewerEmail: string;
+  }[];
+  returnPolicy: string;
+  minimumOrderQuantity: number;
+  meta: {
+    createdAt: string;
+    updatedAt: string;
+    barcode: string;
+    qrCode: string;
+  };
+  images: string[];
+  thumbnail: string;
+};
 
+  const [isOpen, setIsOpen] = useState(false);
+  const [market,setmarket]=useState<Item[]>([]);
+  const totalProducts=useRef(0);
+  const [page,setpage]=useState(1);
+  const[sort,setSort]=useState("Default")
+
+
+  useEffect(()=>{
+    fetch(`http://localhost:3000/products?page=${page}&sortstate=${sort}`)
+    .then((res)=>res.json())
+        .then((x)=>{
+            setmarket(x.data.products)
+        })
+        .catch((err) => {
+      console.error("Failed to fetch products:", err);
+    });
+  },[page,sort])
+  
   return (
     <>
       <div className="flex flex-col w-full gap-5">
@@ -50,13 +101,13 @@ export function Market() {
           <Button className="bg-primary flex-1">Search</Button>
         </div>
 
-        <div className="flex flex-row items-center justify-between w-full border">
+        <div className="flex flex-row  justify-between w-full ">
           <div>
             <span className="text-2xl font-medium mr-1">Product Results</span>
-            <span className="text-muted-foreground">101 Products</span>
+            <span className="text-muted-foreground">{totalProducts.current} Products</span>
           </div>
 
-          <div className="flex flex-row ">
+          <div className="flex flex-row items-center">
             <span className="mr-1">Sort By :</span>
             <div className="text-primary flex flex-row">
               <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
@@ -72,15 +123,21 @@ export function Market() {
               </DropdownMenu>
             </div>
           </div>
-        </div>
+        </div>  
 
-        <div className="grid grid-cols-3 w-full gap-5">
-          {warehouse.map((item) => (
-            <Card>
+        
+
+        <div className="grid grid-cols-3 w-full gap-5 items-stretch">
+          {market?.map((item) => (
+            <div key={item.id}>
+                 <Card className="h-full">
               <CardContent>
+                <div>
+                    <img src={item.images[0]} />
+                </div>
                 <div className="flex flex-row justify-between items-center">
                   <CardTitle className="text-xl font-bold">
-                    Card Title
+                    {item.title}
                   </CardTitle>
                   <div className="relative">
                     <Heart className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></Heart>
@@ -88,43 +145,50 @@ export function Market() {
                   </div>
                 </div>
                 <CardDescription>
-                  Lorem, ipsum dolor sit amet consectetur adipisicing elit. Qui
-                  consequuntur necessitatibus reiciendis magnam ut tempora
-                  doloremque, pariatur distinctio fuga amet unde aspernatur
-                  mollitia iste ex vel. Quos ullam aspernatur sunt.
+                  {item.description}
                 </CardDescription>
               </CardContent>
               <CardFooter className="flex flex-row justify-between">
-                <span className="text-3xl font-bold">$345</span>
+                <span className="text-3xl font-bold">${item.price}</span>
                 <Button className="text-xl h-10 w-10">+</Button>
               </CardFooter>
             </Card>
+            </div>
+           
           ))}
         </div>
 
         <div className="w-full flex justify-end">
           <div>
             <Pagination>
-              <PaginationContent>
-                <PaginationItem>
-                  <PaginationPrevious href="#" />
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationLink href="#" isActive>
-                    1
-                  </PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationLink href="#">2</PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationLink href="#">3</PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationNext href="#" />
-                </PaginationItem>
-              </PaginationContent>
-            </Pagination>
+      <PaginationContent>
+        <PaginationItem>
+          <PaginationPrevious onClick={()=>{
+                 if (page>1) setpage(page-1)
+          }
+           }/>
+        </PaginationItem>
+        <PaginationItem>
+          <PaginationLink isActive>{page}</PaginationLink>
+        </PaginationItem>
+        <PaginationItem>
+          <PaginationLink onClick={()=>setpage(page+1)}>
+            {page+1}
+          </PaginationLink>
+        </PaginationItem>
+        <PaginationItem>
+          <PaginationLink onClick={()=>setpage(page+2)}>{page+2}</PaginationLink>
+        </PaginationItem>
+        <PaginationItem>
+          <PaginationEllipsis />
+        </PaginationItem>
+        <PaginationItem>
+          <PaginationNext onClick={()=>{
+            setpage(page+1);
+          }} />
+        </PaginationItem>
+      </PaginationContent>
+    </Pagination>
           </div>
         </div>
       </div>
