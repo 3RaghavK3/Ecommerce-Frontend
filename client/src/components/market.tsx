@@ -30,7 +30,6 @@ export default function Market() {
   const UserSearch = useRef(null);
   const totalPages = useRef(null);
   const limit = Number(import.meta.env.VITE_PER_PAGE) || 9;
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch(
@@ -49,7 +48,6 @@ export default function Market() {
       })
       .catch((err) => {
         console.error("Failed to fetch products:", err);
-        setLoading(false);
       });
   }, [page, sort, inputValue]);
 
