@@ -7,16 +7,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import React from "react";
 import { useEffect, useRef, useState } from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardTitle,
-} from "@/components/ui/card";
-import { Heart } from "lucide-react";
-import { Skeleton } from "@/components/ui/skeleton"
 import { Productcard } from "./ProductCard";
 import {
   Pagination,
@@ -29,48 +21,8 @@ import {
 } from "@/components/ui/pagination";
 
 export default function Market() {
-  type Item = {
-    id: number;
-    title: string;
-    description: string;
-    category: string;
-    price: number;
-    discountPercentage: number;
-    rating: number;
-    stock: number;
-    tags: string[];
-    brand: string;
-    sku: string;
-    weight: number;
-    dimensions: {
-      width: number;
-      height: number;
-      depth: number;
-    };
-    warrantyInformation: string;
-    shippingInformation: string;
-    availabilityStatus: string;
-    reviews: {
-      rating: number;
-      comment: string;
-      date: string;
-      reviewerName: string;
-      reviewerEmail: string;
-    }[];
-    returnPolicy: string;
-    minimumOrderQuantity: number;
-    meta: {
-      createdAt: string;
-      updatedAt: string;
-      barcode: string;
-      qrCode: string;
-    };
-    images: string[];
-    thumbnail: string;
-  };
-
   const [isOpen, setIsOpen] = useState(false);
-  const [market, setmarket] = useState<Item[]>([]);
+  const [market, setmarket] = useState([]);
   const [totalProducts, settotalproducts] = useState(0);
   const [page, setpage] = useState(1);
   const [sort, setSort] = useState("default");
@@ -80,20 +32,26 @@ export default function Market() {
   const limit = Number(import.meta.env.VITE_PER_PAGE) || 9;
   const [loading, setLoading] = useState(true);
 
- useEffect(() => {
-  fetch(`http://localhost:3000/products?page=${page}&sortstate=${sort}&userquery=${inputValue}`)
-    .then((res) => res.json())
-    .then((x) => {
+  useEffect(() => {
+    fetch(
+      `http://localhost:3000/products?page=${page}&sortstate=${sort}&userquery=${inputValue}`,
+    )
+      .then((res) => res.json())
+      .then((x) => {
         setmarket(x.data.products);
         settotalproducts(x.total);
         totalPages.current = Math.ceil(x.data.total / limit);
-    })
-    .catch((err) => {
-      console.error("Failed to fetch products:", err);
-      setLoading(false);
-    });
-}, [page, sort, inputValue]);
 
+        window.scrollTo({
+          top: 450,
+          behavior: "smooth",
+        });
+      })
+      .catch((err) => {
+        console.error("Failed to fetch products:", err);
+        setLoading(false);
+      });
+  }, [page, sort, inputValue]);
 
   return (
     <>
@@ -172,10 +130,9 @@ export default function Market() {
         </div>
 
         <div className="grid grid-cols-3 w-full gap-5 items-stretch">
-          
           {market.map((item) => (
             <div key={item.id} className="w-full">
-                <Productcard {...item}/>
+              <Productcard {...item} />
             </div>
           ))}
         </div>
