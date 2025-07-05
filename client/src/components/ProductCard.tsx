@@ -22,8 +22,8 @@ export function Productcard({ id,
          <Card className="h-full">
                 <CardContent>
                   <div>
-                    {!isImageLoaded && <Skeleton className="h-75 bg-muted"/>}
-                    <img src={images[0]} onLoad={()=>setIsImageLoaded(true)}/>
+                    {!isImageLoaded && <Skeleton className="h-70 bg-muted"/>}
+                    <img src={images[0]} className="h-70" onLoad={()=>setIsImageLoaded(true)}/>
                    
                   </div>
 
