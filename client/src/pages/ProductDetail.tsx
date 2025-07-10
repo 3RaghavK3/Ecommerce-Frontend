@@ -13,7 +13,7 @@ export function ProductDetailPage({}) {
   const { id } = useParams();
   const [productInfo, setproductInfo] = useState({});
   const [quantity, setquantity] = useState(1);
-  const [isImageLoaded, setIsImageLoaded] = useState(false);
+
 
   useEffect(() => {
     fetch(`http://localhost:3000/products/getinfo?id=${id}`)
@@ -41,15 +41,16 @@ export function ProductDetailPage({}) {
         <div className="shadow-xl">
           <div className="flex flex-row w-full h-[500px]">
             <div className="flex-1 flex items-center justify-center">
-              {!isImageLoaded && <Skeleton className="h-500 w-full bg-muted" />}
-              {productInfo.images?.[0] && (
-                <img
-                  src={productInfo.images[0]}
-                  alt="Product"
-                  className="w-full h-full object-contain"
-                  onLoad={() => setIsImageLoaded(true)}
-                />
-              )}
+               
+                    {productInfo?.images?.[0] && (
+                    <img
+                        src={productInfo.images[0]}
+                        alt="Product"
+                        className="w-full h-full object-contain"
+                        onLoad={() => setIsImageLoaded(true)}
+                    />
+                    )}
+
             </div>
 
             <div
