@@ -1,5 +1,3 @@
-
-import Market from "@/components/market";
 import { MarketContext } from "../context/MarketContext"
 import { LoaderCircle } from "lucide-react";
 import { useContext, useEffect, useState } from "react";

@@ -5,8 +5,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 import Rating from "react-rating";
 import { Star, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
 import TabsComponent from "@/components/tabs";
 import { AlertToast, SuccessToast } from "@/components/Toast";
 import { useNavigate } from "react-router-dom";
