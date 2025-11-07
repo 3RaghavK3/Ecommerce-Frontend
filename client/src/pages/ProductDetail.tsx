@@ -152,16 +152,6 @@ export function ProductDetailPage({}) {
                 ${productInfo.price}
               </div>
 
-              <div className="grid w-full gap-3">
-                <Label htmlFor="message" className="text-base">
-                  Delivery Address
-                </Label>
-                <Textarea
-                  placeholder="Type your address here."
-                  id="message"
-                  required
-                />
-              </div>
 
               <div className="flex flex-col gap-5">
                 {stockavail && (
