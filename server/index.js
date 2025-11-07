@@ -101,3 +101,35 @@ app.listen(PORT, () => {
 });
 
 
+app.get('/filters',async(req,res)=>{
+    try{
+        const url='https://dummyjson.com/products/categories'
+        const response=await fetch(url);
+        const data=await response.json()
+
+        if (!response.ok) {
+      return res.status(response.status).json({
+        success: false,
+        message: data.error || data.message || "Unknown error occurred",
+      });
+    }
+
+
+
+     res.status(200).json({
+      success: true,
+      message: "Data retrieved successfully",
+      data
+    });
+    
+
+
+    }
+    catch(e){
+        console.error(e)
+        res.status(500).json({
+           sucess:false,
+           message:"Could not fetch filters: Internal server error"
+        })
+    }
+})
