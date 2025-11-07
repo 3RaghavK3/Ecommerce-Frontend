@@ -12,10 +12,9 @@ interface FilterConditionProps {
   options: string[];
 }
 
-const capitalise=(str:string)=>{
-  
+const capitalise = (str: string) => {
   return str.charAt(0).toUpperCase() + str.slice(1);
-}
+};
 
 export function FilterCondition({ title, options = [] }: FilterConditionProps) {
   const [isClicked, setIsClicked] = useState(false);
@@ -36,7 +35,7 @@ export function FilterCondition({ title, options = [] }: FilterConditionProps) {
           <div className="flex flex-col gap-1 ">
             {options.map((condition) => (
               <div className="flex flex-row gap-2 items-center">
-                <Checkbox  condition={condition}/>
+                <Checkbox condition={condition} />
                 {capitalise(condition)}
               </div>
             ))}

@@ -5,27 +5,23 @@ import { MarketContext } from "@/context/MarketContext";
 
 import { cn } from "@/lib/utils";
 
-
 function Checkbox({
   className,
   condition,
   ...props
 }: React.ComponentProps<typeof CheckboxPrimitive.Root>) {
-
-  const {market,setmarket,totalProducts,settotalproducts,totalPages,page,setpage,categoryItems, setCategoryItems}=React.useContext(MarketContext);
-  const [isfilterselected,selectfilter]=React.useState(false);
-
-  const filteredproducts=(val)=>{
-    selectfilter(val);
-    if(val){
-      setCategoryItems((prev)=>[...prev,condition])
-      
-    }
-    else{
-      setCategoryItems((prev)=>prev.filter((x)=>x!==condition))
-    }
-    
-  }
+  const {
+    market,
+    setmarket,
+    totalProducts,
+    settotalproducts,
+    totalPages,
+    page,
+    setpage,
+    categoryItems,
+    setCategoryItems,
+  } = React.useContext(MarketContext);
+  const isfilterselected = categoryItems.includes(condition);
 
   return (
     <CheckboxPrimitive.Root
@@ -35,9 +31,14 @@ function Checkbox({
         className,
       )}
       checked={isfilterselected}
-      onCheckedChange={(val)=>filteredproducts(val)}
+      onCheckedChange={(val) => {
+        if (val) {
+          setCategoryItems((prev) => [...prev, condition]);
+        } else {
+          setCategoryItems((prev) => prev.filter((x) => x !== condition));
+        }
+      }}
       {...props}
-
     >
       <CheckboxPrimitive.Indicator
         data-slot="checkbox-indicator"

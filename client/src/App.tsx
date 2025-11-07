@@ -6,10 +6,10 @@ import { MarketProvider } from "./context/MarketContext";
 function App() {
   return (
     <MarketProvider>
-    <Routes>
-      <Route path="/" element={<Homepage />} />
-      <Route path="/product/getinfo/:id" element={<ProductDetailPage />} />
-    </Routes>
+      <Routes>
+        <Route path="/" element={<Homepage />} />
+        <Route path="/product/getinfo/:id" element={<ProductDetailPage />} />
+      </Routes>
     </MarketProvider>
   );
 }
