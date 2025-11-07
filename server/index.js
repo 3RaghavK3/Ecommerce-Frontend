@@ -24,6 +24,34 @@ const sortMappings = {
   alphadesc:{ sortBy: "title", order: "desc" }
 };
 
+app.get('/products/getinfo', async (req, res) => {
+  try {
+    const url = `https://dummyjson.com/products/${req.query.id}`;
+    const response = await fetch(url, options);
+    const data = await response.json();
+
+    if (!response.ok) {
+      return res.status(response.status).json({
+        success: false,
+        message: data.error || data.message || "Unknown error occurred",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Data retrieved successfully",
+      data,
+      total: data.total,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: "Could not fetch items: Internal Server Error",
+    });
+  }
+});
+
 
 app.get('/products', async (req, res) => {
         const sortkey=req.query.sortstate;

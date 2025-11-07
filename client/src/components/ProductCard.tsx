@@ -9,6 +9,7 @@ import { Heart } from "lucide-react";
 import { Button } from "./ui/button";
 import { useState } from "react";
 import { Skeleton } from "./ui/skeleton";
+import { useNavigate } from "react-router-dom";
 
 export function Productcard({
   id,
@@ -24,9 +25,17 @@ export function Productcard({
   images: string[];
 }) {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
+
+  const navigate = useNavigate();
+
   return (
     <>
-      <Card className="h-full">
+      <Card
+        className="h-full"
+        onClick={() => {
+          navigate(`product/getInfo/${id}`);
+        }}
+      >
         <CardContent>
           <div>
             {!isImageLoaded && <Skeleton className="h-70 bg-muted" />}

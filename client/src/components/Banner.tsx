@@ -4,7 +4,7 @@ export function Banner() {
   return (
     <>
       <div className="w-full h-[400px] flex items-center bg-[#F2F2FD] pl-20 pr-40">
-        <div className="h-[70%] border border-2 flex flex-col justify-between">
+        <div className="h-[70%]flex flex-col justify-between">
           <span>Absolutely hot collections 🔥</span>
           <div className="text-5xl font-bold leading-[1.15]">
             <div>The Best Place To</div>
