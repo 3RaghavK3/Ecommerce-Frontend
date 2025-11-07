@@ -31,7 +31,6 @@ export function Productcard({
   return (
     <>
       <Card
-        key={id}
         className="h-full"
         onClick={() => {
           navigate(`product/getInfo/${id}`);

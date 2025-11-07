@@ -36,7 +36,7 @@ export function FilterCondition({ title, options = [] }: FilterConditionProps) {
           <div className="flex flex-col gap-1 ">
             {options.map((condition) => (
               <div className="flex flex-row gap-2 items-center">
-                <Checkbox condition={condition}/>
+                <Checkbox  condition={condition}/>
                 {capitalise(condition)}
               </div>
             ))}

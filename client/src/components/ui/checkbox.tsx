@@ -24,7 +24,7 @@ function Checkbox({
     else{
       setCategoryItems((prev)=>prev.filter((x)=>x!==condition))
     }
-    console.log(categoryItems);
+    
   }
 
   return (
