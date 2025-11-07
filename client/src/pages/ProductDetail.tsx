@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Header } from "../components/Header";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -10,14 +10,14 @@ import { Label } from "@/components/ui/label";
 import TabsComponent from "@/components/tabs";
 import { AlertToast, SuccessToast } from "@/components/Toast";
 import { useNavigate } from "react-router-dom";
+import { MarketContext } from "../context/MarketContext";
 
 export function ProductDetailPage({}) {
   const { id } = useParams();
   const [productInfo, setproductInfo] = useState({});
   const [quantity, setquantity] = useState(1);
-  const [cart, setcart] = useState([]);
   const [stockavail, setstockavail] = useState(true);
-
+  const {cart,setcart}=useContext(MarketContext);
   const navigate=useNavigate();
   const [showToast, setToast] = useState(false);
   const [alertToast, setalert] = useState(false);
@@ -36,6 +36,8 @@ export function ProductDetailPage({}) {
       setalert(false);
     }, 2000);
   };
+
+  
 
   const Addtocart = () => {
     const itemwithquantity = { ...productInfo, quantity };

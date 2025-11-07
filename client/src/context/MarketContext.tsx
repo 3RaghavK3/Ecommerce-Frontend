@@ -11,6 +11,7 @@ export function MarketProvider({ children }) {
   const [categoryItems, setCategoryItems] = useState([]);
   const [page, setpage] = useState(1);
   const [sort, setSort] = useState("default");
+  const [cart, setcart] = useState([]);
 
   return (
     <MarketContext.Provider
@@ -27,6 +28,8 @@ export function MarketProvider({ children }) {
         setpage,
         sort,
         setSort,
+        cart, 
+        setcart
       }}
     >
       {children}

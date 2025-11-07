@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom";
 import { Label } from "@radix-ui/react-label";
 import { Textarea } from "@/components/ui/textarea";
@@ -7,21 +7,32 @@ import AmEx from "../assets/AmEx.svg";
 import MasterCard from "../assets/Mastercard.svg"
 import Visa from "../assets/Visa.svg"
 import { Button } from "@/components/ui/button";
+import { MarketContext } from "../context/MarketContext";
+
 export function Checkout(){
     const navigate=useNavigate();
-    const [yourcart,setyourcart]=useState([]);
+     const {cart,setcart}=useContext(MarketContext);
     const [selectedcard,setcard]=useState(0);
     const cards=[MasterCard,Visa,AmEx];
 
     useEffect(()=>{
-        setyourcart(JSON.parse(localStorage.getItem("CART")) || []);
+        setcart(JSON.parse(localStorage.getItem("CART")) || []);
     },[])
 
     let bill=0;
     
     return(<>
-        <div className="px-25 mt-5">
-            <div className="text-3xl font-bold ">Checkout</div>
+        <div className="px-25 mt-5">{
+            cart.length===0
+            ?
+            <div className="text-3xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col justify-center items-center gap-4">
+                <div>No items here yet 😢! Let's find something you'll love.</div>
+                <Button onClick={()=>navigate("/")} className="cursor-pointer">Shop Now</Button>
+                </div>
+
+            :
+            <>
+                <div className="text-3xl font-bold ">Checkout</div>
             <div className="flex gap-8 mt-5 h-[85vh]">
                 <div className="w-3/4 flex flex-col">
                     <div className="grid grid-cols-5   gap-0  overflow-y-auto border-2">
@@ -31,7 +42,7 @@ export function Checkout(){
                         <div className="flex justify-left items-center text-2xl ">Quantity</div>
                         <div className="flex justify-left items-center text-2xl ">Subtotal</div>
 
-                        {yourcart.map((item,index)=>{
+                        {cart.map((item,index)=>{
                             bill+=item.price*item.quantity
                             return (<>
                                 <div className="flex justify-left h-24 w-24"><img src={item.images[0]||"-"}/></div>
@@ -46,7 +57,7 @@ export function Checkout(){
                             </>)
                         })}
                     </div>
-                    <div className="flex justify-between border-5">
+                    <div className="flex justify-between border">
                         <div className="text-left text-2xl font-semibold cursor-pointer" onClick={()=>navigate('/')}>Continue Shopping</div>
                         <div className="flex pr-4">
                             <div className="text-3xl"> Total:</div>{" "}
@@ -108,11 +119,14 @@ export function Checkout(){
                     </div>
                     
                     <div className="justify-center flex">
-                        <Button className="bg-[var(--assertive)] rounded-sm cursor-pointer">Proceed to Pay ${Number(bill).toFixed(2)}</Button>
+                        <Button className="bg-[var(--assertive)] rounded-sm cursor-pointer" onClick={()=>{navigate("/payment")}}>Proceed to Pay ${Number(bill).toFixed(2)}</Button>
                     </div>
                     
                 </div>
             </div>
+            </>
+            }
+            
         </div>
     </>)
 }

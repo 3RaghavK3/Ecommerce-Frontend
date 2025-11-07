@@ -6,10 +6,10 @@ export function Header() {
   const navigate=useNavigate();
   return (
     <div className="flex justify-end items-center  gap-5  h-12 w-full bg-white text-gray-200 border-b border-b-[#636AE8] border-b-[1px] px-4">
-      <img src={cart} className="w-6 h-6" alt="cart" />
+      <img src={cart} onClick={()=>navigate("/checkout")} className="w-6 h-6 cursor-pointer" alt="cart" />
       <img src={notication} className="w-6 h-6" alt="notifcation" />
       
-      <Avatar onClick={()=>navigate("/checkout")} className="cursor-pointer">
+      <Avatar  className="cursor-pointer">
         <AvatarImage src="https://github.com/shadcn.png" />
         <AvatarFallback>CN</AvatarFallback>
       </Avatar>
