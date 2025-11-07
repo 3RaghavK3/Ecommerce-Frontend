@@ -109,7 +109,7 @@ export default function Market() {
   return (
     <>
       <div className="flex flex-col w-full gap-5">
-        <div className="flex flex-row gap-5 ">
+        <div className="flex flex-row gap-5">
           <div className="relative w-full flex-[3_1_0%]">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground h-5 " />
             <Input
@@ -244,4 +244,4 @@ export default function Market() {
       </div>
     </>
   );
-}
+}               

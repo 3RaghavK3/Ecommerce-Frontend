@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import TabsComponent from "@/components/tabs";
 import { AlertToast, SuccessToast } from "@/components/Toast";
+import { useNavigate } from "react-router-dom";
 
 export function ProductDetailPage({}) {
   const { id } = useParams();
@@ -17,6 +18,7 @@ export function ProductDetailPage({}) {
   const [cart, setcart] = useState([]);
   const [stockavail, setstockavail] = useState(true);
 
+  const navigate=useNavigate();
   const [showToast, setToast] = useState(false);
   const [alertToast, setalert] = useState(false);
   const [alerttitle, setalertitle] = useState("");
@@ -26,7 +28,7 @@ export function ProductDetailPage({}) {
     setcart(JSON.parse(localStorage.getItem("CART")) || []);
   }, []);
 
-  const triggerAlert = ({ title, desc }) => {
+  const triggerAlert = ({ title,desc }) => {
     setalertitle(title);
     setalertdescription(desc);
     setalert(true);
@@ -37,8 +39,18 @@ export function ProductDetailPage({}) {
 
   const Addtocart = () => {
     const itemwithquantity = { ...productInfo, quantity };
-    const newcart = [...cart, itemwithquantity];
-    setcart(newcart);
+    const existingItemIndex = cart.findIndex(item => item.id === productInfo.id);
+    let newcart;
+    if(existingItemIndex===-1){
+        newcart = [...cart, itemwithquantity];
+    }
+    else{
+        newcart=[...cart]
+        newcart[existingItemIndex].quantity+=itemwithquantity.quantity  
+    }
+    setcart(newcart)
+     
+   
     localStorage.setItem("CART", JSON.stringify(newcart));
     setToast(true);
     setTimeout(() => {
@@ -65,7 +77,7 @@ export function ProductDetailPage({}) {
   return (
     <>
       <Header />
-      <div className="min-h-screen w-full px-30">
+      <div className="min-h-screen w-full px-75">
         <div
           className="w-full text-sm text-muted-foreground my-15"
           style={{ fontFamily: "Inter, sans-serif" }}
@@ -207,7 +219,7 @@ export function ProductDetailPage({}) {
                       <ShoppingCart />
                       <span>Add to Cart</span>
                     </Button>
-                    <Button className="flex-1 p-5">Check Out</Button>
+                    <Button className="flex-1 p-5" onClick={()=>navigate("/checkout")}>Check Out</Button>
                   </div>
                 )}
               </div>
