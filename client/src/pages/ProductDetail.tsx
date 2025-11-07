@@ -77,7 +77,7 @@ export function ProductDetailPage({}) {
   return (
     <>
       <Header />
-      <div className="min-h-screen w-full px-75">
+      <div className="min-h-screen w-full px-50">
         <div
           className="w-full text-sm text-muted-foreground my-15"
           style={{ fontFamily: "Inter, sans-serif" }}

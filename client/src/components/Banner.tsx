@@ -1,5 +1,6 @@
 import { Button } from "./ui/button";
 import banneritem from "../assets/banneritem.png";
+
 export function Banner() {
   return (
     <>
@@ -12,8 +13,9 @@ export function Banner() {
             <div>
               Amazing <span className="text-accent">Product</span>
             </div>
+                      
+          <Button className="bg-primary w-fit p-5">Shop Now</Button>
 
-            <Button className="bg-primary w-fit p-5">Shop Now</Button>
           </div>
         </div>
 
