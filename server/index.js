@@ -55,20 +55,10 @@ app.get('/products/getinfo', async (req, res) => {
 
 app.get('/products', async (req, res) => {
         const sortkey=req.query.sortstate;
-        const page=parseInt(req.query.page); 
-        const userquery=req.query.userquery.trim()
-        
+        const page=parseInt(req.query.page);         
         const skip=(page-1)*limit
   try {
-      let url
-      if(userquery.length>0){
-        console.log(page)
-        url=`https://dummyjson.com/products/search?q=${userquery}&limit=${limit}&skip=${skip}&sortBy=${sortMappings[sortkey].sortBy}&order=${sortMappings[sortkey].order}`
-      }
-      else{
-        url=`https://dummyjson.com/products?limit=${limit}&skip=${skip}&sortBy=${sortMappings[sortkey].sortBy}&order=${sortMappings[sortkey].order}`
-      }
-      
+      let url=`https://dummyjson.com/products?limit=${limit}&skip=${skip}&sortBy=${sortMappings[sortkey].sortBy}&order=${sortMappings[sortkey].order}`;
       const response = await fetch(url, options);
       const data = await response.json();
 
@@ -80,11 +70,12 @@ app.get('/products', async (req, res) => {
       });
     }
 
+
     res.status(200).json({
       success: true,
       message: "Data retrieved successfully",
-      data,
-      total:data.total
+      data:data.products,
+      total:data.total   
     });
     
   } catch (error) {
@@ -96,24 +87,19 @@ app.get('/products', async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
-});
-
 
 app.get('/filters',async(req,res)=>{
     try{
-        const url='https://dummyjson.com/products/categories'
+        const url='https://dummyjson.com/products/category-list'
         const response=await fetch(url);
         const data=await response.json()
-
+        
         if (!response.ok) {
       return res.status(response.status).json({
         success: false,
         message: data.error || data.message || "Unknown error occurred",
       });
     }
-
 
 
      res.status(200).json({
@@ -133,3 +119,46 @@ app.get('/filters',async(req,res)=>{
         })
     }
 })
+
+app.get("/filter",async(req,res)=>{
+        const page=parseInt(req.query.page);  
+        const sortkey=req.query.sortstate;
+        const skip=(page-1)*limit
+        const category=req.query.category.toLowerCase();
+  try{  
+        const url=`https://dummyjson.com/products/category/${category}?limit=${limit}&skip=${skip}&sortBy=${sortMappings[sortkey].sortBy}&order=${sortMappings[sortkey].order}`
+        const response=await fetch(url);
+        const data=await response.json()
+        
+        if (!response.ok) {
+      return res.status(response.status).json({
+        success: false,
+        message: data.error || data.message || "Unknown error occurred",
+      });
+    }
+
+
+
+     res.status(200).json({
+      success: true,
+      message: "Data retrieved successfully",
+      data:data.products,
+      total:data.total   
+    });
+    
+
+
+    }
+    catch(e){
+        console.error(e)
+        res.status(500).json({
+           sucess:false,
+           message:"Could not fetch filters by category: Internal server error"
+        })
+    }
+})
+
+
+app.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}`);
+});

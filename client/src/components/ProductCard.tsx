@@ -31,6 +31,7 @@ export function Productcard({
   return (
     <>
       <Card
+        key={id}
         className="h-full"
         onClick={() => {
           navigate(`product/getInfo/${id}`);
@@ -40,7 +41,7 @@ export function Productcard({
           <div>
             {!isImageLoaded && <Skeleton className="h-70 bg-muted" />}
             <img
-              src={images[0]}
+              src={images?.[0]}
               className="h-70"
               onLoad={() => setIsImageLoaded(true)}
             />

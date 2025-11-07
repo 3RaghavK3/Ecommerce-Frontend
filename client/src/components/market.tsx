@@ -7,7 +7,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import React from "react";
+import React, { useContext } from "react";
 import { useEffect, useRef, useState } from "react";
 import { Productcard } from "./ProductCard";
 import {
@@ -19,37 +19,69 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-
+import { MarketContext } from "@/context/MarketContext";
 export default function Market() {
+  const {market,setmarket,totalProducts,settotalproducts,totalPages,page,setpage,limit,categoryItems,setCategoryItems,sort, setSort}=useContext(MarketContext);
   const [isOpen, setIsOpen] = useState(false);
-  const [market, setmarket] = useState([]);
-  const [totalProducts, settotalproducts] = useState(0);
-  const [page, setpage] = useState(1);
-  const [sort, setSort] = useState("default");
-  const [inputValue, setInputValue] = useState("");
   const UserSearch = useRef(null);
-  const totalPages = useRef(null);
-  const limit = Number(import.meta.env.VITE_PER_PAGE) || 9;
+
 
   useEffect(() => {
-    fetch(
-      `http://localhost:3000/products?page=${page}&sortstate=${sort}&userquery=${inputValue}`,
-    )
-      .then((res) => res.json())
+    if(categoryItems.length===0){
+        fetch(`http://localhost:3000/products?page=${page}&sortstate=${sort}`)
+        .then((res) => res.json())
       .then((x) => {
-        setmarket(x.data.products);
+        setmarket(x.data);
         settotalproducts(x.total);
-        totalPages.current = Math.ceil(x.data.total / limit);
-
+        totalPages.current = Math.ceil(x.total/ limit);
+        
         window.scrollTo({
           top: 450,
           behavior: "smooth",
         });
       })
+
       .catch((err) => {
         console.error("Failed to fetch products:", err);
       });
-  }, [page, sort, inputValue]);
+    }
+    else {
+
+  let completedcount = 0;
+  const totalfetches = categoryItems.length;
+  let totalsum = 0;
+
+  categoryItems.map((category, index) => {
+    fetch(`http://localhost:3000/filter?category=${category}&page=${page}&sortstate=${sort}`)
+      .then((res) => res.json())
+      .then((x) => {
+        setmarket((prev) => {
+          if (index === 0) return x.data;
+          else return [...prev, ...x.data];
+        });
+        
+        settotalproducts((prev) => {
+          if (index === 0) return x.total;
+          else return prev + x.total;
+        });
+        
+        totalsum += x.total;
+        completedcount++;
+        
+        if (completedcount === totalfetches) {
+          totalPages.current = Math.ceil(totalsum / limit);
+          window.scrollTo({
+            top: 450,
+            behavior: "smooth",
+          });
+        }
+      })
+      .catch((err) => {
+        console.error("Failed to fetch products:", err);
+      });
+  }),[page,sort,market]}
+  
+})
 
   return (
     <>
@@ -128,8 +160,8 @@ export default function Market() {
         </div>
 
         <div className="grid grid-cols-3 w-full gap-5 items-stretch">
-          {market.map((item) => (
-            <div key={item.id} className="w-full">
+          {market?.map((item) => (
+            <div key={`${item.id}-${item.rating}-${item-price}`} className="w-full">
               <Productcard {...item} />
             </div>
           ))}

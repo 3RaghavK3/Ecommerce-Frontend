@@ -2,15 +2,12 @@ import { Card, CardHeader, CardTitle, CardContent } from "./ui/card";
 import { useState,useEffect } from "react";
 import { FilterCondition } from "./ui/filter";
 export function FilterColumn() {
+  
     const [Category,setCategory]=useState([]);
    useEffect(()=>{
         fetch('http://localhost:3000/filters')
         .then((res)=>res.json())
-        .then((x)=>{
-              console.log(x)
-              setCategory(x.data.map((details)=>details.name))
-        }
-        )
+        .then((x)=>setCategory(x.data));
     },[])
 
 
@@ -24,7 +21,7 @@ export function FilterColumn() {
       </CardHeader>
 
       <CardContent className=" p-0 flex flex-col gap-5">
-        <FilterCondition title={"Category"} options={Category} onclick={(e)=>{}}  />
+        <FilterCondition title={"Category"} options={Category}/>
       </CardContent>
     </Card>
   );
