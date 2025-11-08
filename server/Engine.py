@@ -18,6 +18,7 @@ df=pd.read_csv("Products.csv")
 df['images'] = df['images'].apply(lambda x: ast.literal_eval(x) if pd.notna(x) else [])
 
 
+
 app=FastAPI()
 
 
@@ -29,4 +30,5 @@ def recommend_products(product_id:int,num_recommendations:int):
     product_index=product_id-1
     distances, indices = model.kneighbors(df_final.iloc[product_index:product_index+1])
     top_similar_products = df.iloc[indices[0]].iloc[1:num_recommendations+1]
+    top_similar_products['brand'] = top_similar_products['brand'].fillna("")
     return top_similar_products.to_dict(orient="records")
