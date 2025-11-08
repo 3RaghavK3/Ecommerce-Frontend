@@ -1,78 +1,59 @@
 import { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Header } from "../components/Header";
-import { Skeleton } from "@/components/ui/skeleton";
 import Rating from "react-rating";
 import { Star, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import TabsComponent from "@/components/tabs";
-import { AlertToast, SuccessToast } from "@/components/Toast";
-import { useNavigate } from "react-router-dom";
-import { MarketContext } from "../context/MarketContext";
+import { Productcard } from "@/components/ProductCard";
+import { DialogContext } from "@/context/DialogContext";
 
-export function ProductDetailPage({}) {
+export function ProductDetailPage() {
   const { id } = useParams();
-  const [productInfo, setproductInfo] = useState({});
-  const [quantity, setquantity] = useState(1);
-  const [stockavail, setstockavail] = useState(true);
-  const {cart,setcart}=useContext(MarketContext);
-  const navigate=useNavigate();
-  const [showToast, setToast] = useState(false);
-  const [alertToast, setalert] = useState(false);
-  const [alerttitle, setalertitle] = useState("");
-  const [alertdescription, setalertdescription] = useState("");
+  const navigate = useNavigate();
+  const { SucessDialog, AlertDialog } = useContext(DialogContext);
+
+  const [productInfo, setProductInfo] = useState({});
+  const [recommendended, setRecommended] = useState([]);
+  const [quantity, setQuantity] = useState(1);
+  const [stockAvail, setStockAvail] = useState(true);
 
   useEffect(() => {
-    setcart(JSON.parse(localStorage.getItem("CART")) || []);
-  }, []);
+    window.scrollTo({ top: 0, behavior: "smooth" });
 
-  const triggerAlert = ({ title,desc }) => {
-    setalertitle(title);
-    setalertdescription(desc);
-    setalert(true);
-    setTimeout(() => {
-      setalert(false);
-    }, 2000);
-  };
-
-  
-
-  const Addtocart = () => {
-    const itemwithquantity = { ...productInfo, quantity };
-    const existingItemIndex = cart.findIndex(item => item.id === productInfo.id);
-    let newcart;
-    if(existingItemIndex===-1){
-        newcart = [...cart, itemwithquantity];
-    }
-    else{
-        newcart=[...cart]
-        newcart[existingItemIndex].quantity+=itemwithquantity.quantity  
-    }
-    setcart(newcart)
-     
-   
-    localStorage.setItem("CART", JSON.stringify(newcart));
-    setToast(true);
-    setTimeout(() => {
-      setToast(false);
-    }, 3000);
-  };
-
-  useEffect(() => {
     fetch(`http://localhost:3000/products/getinfo?id=${id}`)
       .then((res) => res.json())
       .then((data) => {
-        setproductInfo(data.data);
-        window.scrollTo({ top: 0, behavior: "smooth" });
+        setProductInfo(data.data);
+        setStockAvail(data.data.stock > 0);
       })
+      .catch((e) => console.error(e));
+
+    fetch(
+      `http://127.0.0.1:8000/recommend-products?product_id=${id}&num_recommendations=3`
+    )
+      .then((res) => res.json())
+      .then((x) => setRecommended(x))
       .catch((e) => console.error(e));
   }, [id]);
 
-  useEffect(() => {
-    if (productInfo.stock === 0) {
-      setstockavail(false);
+  const AddToCart = () => {
+    const cart=JSON.parse(localStorage.getItem("CART") || "[]")
+    const existingId = cart.findIndex((product) => product.id == id);
+
+    if (existingId === -1) {
+      localStorage.setItem(
+        "CART",
+        JSON.stringify([...cart, { ...productInfo, quantity }])
+      );
+    } else {
+      cart[existingId].quantity += quantity;
+      localStorage.setItem("CART", JSON.stringify(cart));
+      
     }
-  }, [productInfo.stock]);
+    SucessDialog({ msg: "Added to cart!", desc: `${quantity} x ${productInfo.title} has been added. You can review your cart now.`  });
+    
+  };
 
   return (
     <>
@@ -89,6 +70,7 @@ export function ProductDetailPage({}) {
 
         <div className="shadow-xl">
           <div className="flex flex-row w-full h-[500px]">
+        
             <div className="flex-1 flex items-center justify-center">
               {productInfo?.images?.[0] && (
                 <img
@@ -98,10 +80,9 @@ export function ProductDetailPage({}) {
                 />
               )}
             </div>
-            <div
-              className="flex-1 flex flex-col gap-5 px-10"
-              style={{ fontFamily: "Inter, sans-serif" }}
-            >
+
+          
+            <div className="flex-1 flex flex-col gap-5 px-10">
               <div>
                 <div
                   className="text-3xl font-extrabold"
@@ -109,7 +90,6 @@ export function ProductDetailPage({}) {
                 >
                   {productInfo.title}
                 </div>
-
                 <div className="flex flex-row justify-between w-full items-center">
                   <div className="text-xl">By {productInfo.brand}</div>
                   <div className="bg-accent text-white rounded-lg p-1 font-semibold">
@@ -120,17 +100,13 @@ export function ProductDetailPage({}) {
 
               <div className="flex flex-row w-3/5 justify-between items-center text-muted-foreground">
                 <div className="flex flex-row gap-2">
-                  <div className="font-bold text-black">
-                    {productInfo.rating}
-                  </div>
-                  <div>
-                    <Rating
-                      initialRating={productInfo.rating}
-                      readonly
-                      emptySymbol={<Star fill="#d4d4d8" stroke="none" />}
-                      fullSymbol={<Star fill="#F3C63F" stroke="none" />}
-                    />
-                  </div>
+                  <div className="font-bold text-black">{productInfo.rating}</div>
+                  <Rating
+                    initialRating={productInfo.rating}
+                    readonly
+                    emptySymbol={<Star fill="#d4d4d8" stroke="none" />}
+                    fullSymbol={<Star fill="#F3C63F" stroke="none" />}
+                  />
                 </div>
                 <div>
                   <span className="font-bold text-black">
@@ -139,89 +115,81 @@ export function ProductDetailPage({}) {
                   Reviews
                 </div>
                 <div>
-                  <span className="font-bold text-black">
-                    {productInfo.stock}
-                  </span>{" "}
+                  <span className="font-bold text-black">{productInfo.stock}</span>{" "}
                   Stock
                 </div>
               </div>
 
-              <div className="text-5xl font-bold text-black">
-                ${productInfo.price}
-              </div>
+              <div className="text-5xl font-bold text-black">${productInfo.price}</div>
 
 
               <div className="flex flex-col gap-5">
-                {stockavail && (
-                  <div>
+                {!stockAvail && (
+                  <div className="text-3xl text-red-500 font-semibold">
+                    Out of Stock! Come back Later
+                  </div>
+                )}
+                {stockAvail && (
+                  <>
                     <div>Quantity</div>
                     <div className="flex gap-2.5 items-center">
-                        <Button
-                          onClick={() => {
-                            if (quantity > 1) {
-                              setquantity(quantity - 1);
-                            } else {
-                              triggerAlert({
-                                title: "Minimum Quantity Reached",
-                                desc: "You cannot select less than 1 item.",
-                              });
-                            }
-                          }}
-                        >
-                          -
-                        </Button>
-
-                        <Button>{quantity}</Button>
-
-                        <Button
-                          onClick={() => {
-                            if (quantity < productInfo.stock) {
-                              setquantity(quantity + 1);
-                            } else {
-                              triggerAlert({
-                                title: "Maximum Stock Reached",
-                                desc: `You cannot select more than ${productInfo.stock} items.`,
-                              });
-                            }
-                          }}
-                        >
-                          +
-                        </Button>
-
-                         {alertToast && (
-                        <AlertToast
-                          alertitle={alerttitle}
-                          alertdescription={alertdescription}
-                        />
-                      )}
+                      <Button
+                        onClick={() => {
+                          if (quantity > 1) setQuantity(quantity - 1);
+                          else
+                            AlertDialog({
+                              msg: "Minimum Quantity Reached",
+                              desc: "You cannot select less than 1 item",
+                            });
+                        }}
+                      >
+                        -
+                      </Button>
+                      <Button>{quantity}</Button>
+                      <Button
+                        onClick={() => {
+                          if (quantity < productInfo.stock) setQuantity(quantity + 1);
+                          else
+                            AlertDialog({
+                              msg: "Maximum Stock Reached",
+                              desc: `You cannot select more than ${productInfo.stock} items.`,
+                            });
+                        }}
+                      >
+                        +
+                      </Button>
                     </div>
 
-                  </div>
-                )}
-                
-              
-                {stockavail && (
-                  <div className="w-full flex flex-row gap-5">
-                    <Button
-                      className="flex-1 text-primary border border-primary bg-background p-5 hover:bg-muted"
-                      onClick={() => Addtocart()}
-                    >
-                      <ShoppingCart />
-                      <span>Add to Cart</span>
-                    </Button>
-                    <Button className="flex-1 p-5" onClick={()=>navigate("/checkout")}>Check Out</Button>
-                  </div>
+                    <div className="w-full flex flex-row gap-5 mt-5">
+                      <Button
+                        className="flex-1 text-primary border border-primary bg-background p-5 hover:bg-muted"
+                        onClick={AddToCart}
+                      >
+                        <ShoppingCart />
+                        <span>Add to Cart</span>
+                      </Button>
+                      <Button
+                        className="flex-1 p-5"
+                        onClick={() => navigate("/checkout")}
+                      >
+                        Check Out
+                      </Button>
+                    </div>
+                  </>
                 )}
               </div>
-
-              {showToast && (
-                <SuccessToast
-                  successmsg={`Added to cart!`}
-                  description={`${quantity} x ${productInfo.title} has been added. You can review your cart or proceed to checkout.`}
-                />
-              )}
             </div>
           </div>
+
+  
+          <div className="text-4xl font-semibold px-8 mt-10">Recommended Products</div>
+          <div className="flex p-8 gap-8">
+            {recommendended.map((item) => (
+              <Productcard key={item.id} {...item} />
+            ))}
+          </div>
+
+        
           <div className="px-10">
             <TabsComponent productInfo={productInfo} />
           </div>

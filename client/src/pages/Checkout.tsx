@@ -11,13 +11,11 @@ import { MarketContext } from "../context/MarketContext";
 
 export function Checkout(){
     const navigate=useNavigate();
-     const {cart,setcart}=useContext(MarketContext);
+    
     const [selectedcard,setcard]=useState(0);
     const cards=[MasterCard,Visa,AmEx];
 
-    useEffect(()=>{
-        setcart(JSON.parse(localStorage.getItem("CART")) || []);
-    },[])
+    const cart = JSON.parse(localStorage.getItem("CART")) || [];
 
     let bill=0;
     

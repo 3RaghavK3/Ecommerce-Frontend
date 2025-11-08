@@ -1,6 +1,6 @@
-import { MarketContext } from "../context/MarketContext"
+
 import { LoaderCircle } from "lucide-react";
-import { useContext, useEffect, useState } from "react";
+import {useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export function PaymentConfirm(){
@@ -9,8 +9,8 @@ export function PaymentConfirm(){
     const [countdowntimer,setcountdown]=useState(3);
     const navigate=useNavigate();
     const [OrderId,setorderid]=useState(null);
-    const {cart,setcart}=useContext(MarketContext)
 
+    
     const placeOrder=()=>{
             const current_order_id=Date.now()+Math.floor(Math.random()*1000);
             setorderid(current_order_id);

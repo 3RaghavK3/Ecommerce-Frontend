@@ -4,9 +4,11 @@ import { ProductDetailPage } from "./pages/ProductDetail";
 import { Checkout } from "./pages/Checkout";
 import { MarketProvider } from "./context/MarketContext";
 import { PaymentConfirm } from "./pages/PaymentConfirm";
+import { DialogProvider } from "./context/DialogContext";
 
 function App() {
   return (
+    <DialogProvider>
     <MarketProvider>
       <Routes>
         <Route path="/" element={<Homepage />} />
@@ -15,6 +17,7 @@ function App() {
          <Route path="/payment" element={<PaymentConfirm />} />
       </Routes>
     </MarketProvider>
+    </DialogProvider>
   );
 }
 
