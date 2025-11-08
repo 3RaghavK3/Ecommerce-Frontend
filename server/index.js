@@ -61,7 +61,44 @@ app.get('/products', async (req, res) => {
       let url=`https://dummyjson.com/products?limit=${limit}&skip=${skip}&sortBy=${sortMappings[sortkey].sortBy}&order=${sortMappings[sortkey].order}`;
       const response = await fetch(url, options);
       const data = await response.json();
+      
 
+
+    if (!response.ok) {
+      return res.status(response.status).json({
+        success: false,
+        message: data.error || data.message || "Unknown error occurred",
+      });
+    }
+
+
+    res.status(200).json({
+      success: true,
+      message: "Data retrieved successfully",
+      data:data.products,
+      total:data.total   
+    });
+    
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: "Could not fetch items: Internal Server Error",
+    });
+  }
+});
+
+
+app.get('/searchq', async (req, res) => {
+        const sortkey=req.query.sortstate;
+        const page=parseInt(req.query.page);
+        const seachquery=req.query.inputvalue        
+        const skip=(page-1)*limit
+  try {
+      let url=`https://dummyjson.com/products/search?q=${seachquery}&limit=${limit}&skip=${skip}&sortBy=${sortMappings[sortkey].sortBy}&order=${sortMappings[sortkey].order}`;
+      const response = await fetch(url);
+      const data = await response.json();
+    
 
     if (!response.ok) {
       return res.status(response.status).json({

@@ -1,6 +1,7 @@
 import { Input } from "./ui/input";
-import { ChevronDown, ChevronRight, Search } from "lucide-react";
+import { ChevronDown, ChevronRight, Search, X } from "lucide-react";
 import { Button } from "./ui/button";
+import { History } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -38,6 +39,27 @@ export default function Market() {
   const [isOpen, setIsOpen] = useState(false);
   const UserSearch = useRef(null);
   const multiplemarket = useRef([]);
+  const [inputvalue,setinput]=useState("");
+  const [history,sethistory]=useState([]);
+
+  const no_of_history=3;
+
+  const changehistory=()=>{
+      if(history.length>=no_of_history){
+          sethistory(prev=>[UserSearch.current?.value,...prev.slice(0,-1)])
+      }
+      else sethistory(prev=>[UserSearch.current?.value,...prev])
+    
+  }
+
+  const showhistory=()=>
+      history.map((searchq)=>
+
+      <div className="h-8 bg-secondary px-4 rounded-sm border-1 text-muted-foreground flex items-center ">
+          <History className="relative -left-2 h-5 w-5"/>
+          {searchq}
+      </div>)
+  
 
   async function repeatedFetch() {
     try {
@@ -51,8 +73,7 @@ export default function Market() {
           `http://localhost:3000/filter/categories?category=${category}`,
         );
         const res = await response.json();
-        console.log(market);
-
+  
         res.data.forEach((product) => multiplemarket.current.push(product));
         settotalproducts((prev) =>
           index === 0 ? res.total : prev + res.total,
@@ -60,7 +81,6 @@ export default function Market() {
 
         totalsum += res.total;
       }
-      console.log(multiplemarket);
       totalPages.current = Math.ceil(totalsum / limit);
       setmarket(
         multiplemarket.current.slice(
@@ -68,68 +88,83 @@ export default function Market() {
           limit * (page - 1) + limit,
         ),
       );
-      console.log(totalPages.current);
     } catch (err) {
       console.error(err);
     }
   }
 
   useEffect(() => {
-    if (categoryItems.length === 0 || categoryItems.length === 1) {
-      let url;
-      if (categoryItems.length === 1)
-        url = `http://localhost:3000/filter/category?category=${categoryItems[0]}&page=${page}&sortstate=${sort}`;
-      else
-        url = `http://localhost:3000/products?page=${page}&sortstate=${sort}`;
-      fetch(url)
-        .then((res) => res.json())
-        .then((x) => {
-          setmarket(x.data);
-          settotalproducts(x.total);
-          totalPages.current = Math.ceil(x.total / limit);
-        })
+  let url = "";
 
-        .catch((err) => {
-          console.error("Failed to fetch products:", err);
-        });
+  if (categoryItems.length === 0) {
+    if (inputvalue.length > 0) {
+      changehistory(); // call it as a normal statement
+      url = `http://localhost:3000/searchq?inputvalue=${inputvalue}&page=${page}&sortstate=${sort}`;
     } else {
-      setmarket(
-        multiplemarket.current.slice(
-          limit * (page - 1),
-          limit * (page - 1) + limit,
-        ),
-      );
+      url = `http://localhost:3000/products?page=${page}&sortstate=${sort}`;
     }
-  }, [sort, page, categoryItems.length]);
+  } else if (categoryItems.length === 1) {
+    setinput("");
+    if (UserSearch.current) UserSearch.current.value = "";
+    url = `http://localhost:3000/filter/category?category=${categoryItems[0]}&page=${page}&sortstate=${sort}`;
+  } else {
+    setmarket(
+      multiplemarket.current.slice(
+        limit * (page - 1),
+        limit * (page - 1) + limit
+      )
+    );
+    return;
+  }
+
+  fetch(url)
+    .then((res) => res.json())
+    .then((x) => {
+      setmarket(x.data);
+      settotalproducts(x.total);
+      totalPages.current = Math.ceil(x.total / limit);
+    })
+    .catch((err) => console.error("Failed to fetch products:", err));
+}, [sort, page, categoryItems.length, inputvalue]);
+
 
   useEffect(() => {
     if (categoryItems.length > 1) repeatedFetch();
   }, [categoryItems.length]);
+
+
 
   return (
     <>
       <div className="flex flex-col w-full gap-5">
         <div className="flex flex-row gap-5">
           <div className="relative w-full flex-[3_1_0%]">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground h-5 " />
+            <Search className="relative top-7 left-2 text-muted-foreground h-5 " />
             <Input
               ref={UserSearch}
               type="text"
               placeholder="Search..."
               className="pl-10 flex-3 bg-muted text-muted-foreground"
             />
+            <div className="mt-2">
+                  <div className="flex flex-col gap-1">{showhistory()}</div>
+            </div>
           </div>
+          
+          
 
           <Button
             className="bg-primary flex-1"
             onClick={() => {
-              setInputValue(UserSearch.current?.value);
+              setinput(UserSearch.current?.value);
+              setCategoryItems([]);
               setpage(1);
             }}
           >
             Search
           </Button>
         </div>
+      
 
         <div className="flex flex-row  justify-between w-full ">
           <div>
