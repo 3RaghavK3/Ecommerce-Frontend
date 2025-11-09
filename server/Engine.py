@@ -7,8 +7,7 @@ import ast
 
 origins = [
     "http://localhost:5173",   
-    "http://127.0.0.1:3000",  
-    # "https://your-frontend-domain.com"  # add your deployed frontend here
+    "https://ecommerce-frontend-nu-orpin.vercel.app"
 ]
 
 model=joblib.load("Recommendation.pkl")
