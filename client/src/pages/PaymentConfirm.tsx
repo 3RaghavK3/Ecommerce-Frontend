@@ -2,7 +2,7 @@ import { Card } from "@/components/ui/card";
 import { LoaderCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { SquareCheck } from "lucide-react";
+import { Check } from "lucide-react";
 
 export function PaymentConfirm() {
     const [loading, setLoading] = useState(false);
@@ -12,13 +12,15 @@ export function PaymentConfirm() {
 
     const placeOrder = () => {
         const current_order_id = Date.now() + Math.floor(Math.random() * 1000);
+        const orderDate=new Date().toLocaleDateString();
+        const orderTime=new Date().toLocaleTimeString();
         setOrderId(current_order_id);
         const current_cart = JSON.parse(localStorage.getItem("CART"));
         localStorage.setItem("CART", JSON.stringify([]));
 
         console.log(localStorage.getItem("PlacedOrders"));
         const orders_placed = JSON.parse(localStorage.getItem("PlacedOrders") || '{}');
-        localStorage.setItem("PlacedOrders", JSON.stringify({ ...orders_placed, [current_order_id]: current_cart }));
+        localStorage.setItem("PlacedOrders", JSON.stringify({ ...orders_placed, [current_order_id]: {current_cart,orderDate,orderTime}}));
     };
 
     const countdown = () => {
@@ -75,7 +77,7 @@ export function PaymentConfirm() {
                     </>
                 ) : (
                     <>
-                        <SquareCheck className="w-24 h-24 bg-green-400"/>
+                        <Check className="w-24 h-24 text-green-400"/>
                         
                         <div className="text-3xl font-bold">
                             Order Placed Successfully!

@@ -5,6 +5,7 @@ import { Checkout } from "./pages/Checkout";
 import { MarketProvider } from "./context/MarketContext";
 import { PaymentConfirm } from "./pages/PaymentConfirm";
 import { DialogProvider } from "./context/DialogContext";
+import { PastOrders } from "./pages/Pastorders";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/product/getinfo/:id" element={<ProductDetailPage />} />
          <Route path="/checkout" element={<Checkout />} />
          <Route path="/payment" element={<PaymentConfirm />} />
+         <Route path="/pastOrders" element={<PastOrders/>} />
       </Routes>
     </MarketProvider>
     </DialogProvider>

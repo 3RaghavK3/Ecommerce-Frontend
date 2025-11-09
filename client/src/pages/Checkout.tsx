@@ -18,12 +18,13 @@ export function Checkout(){
     const cart = JSON.parse(localStorage.getItem("CART")) || [];
 
     let bill=0;
+    let qty=0;
     
     return(<>
         <div className="px-25 mt-5">{
             cart.length===0
             ?
-            <div className="text-3xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col justify-center items-center gap-4">
+            <div className="text-3xl  absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col justify-center items-center gap-4">
                 <div>No items here yet 😢! Let's find something you'll love.</div>
                 <Button onClick={()=>navigate("/")} className="cursor-pointer">Shop Now</Button>
                 </div>
@@ -44,6 +45,7 @@ export function Checkout(){
                        
 
                         {cart.map((item,index)=>{
+                            qty+=item.quantity
                             bill+=item.price*item.quantity
                             return (<>
                                 <div className="flex justify-left h-24 w-24 bg-muted rounded-lg border"><img src={item.images[0]||"-"}/></div>
@@ -54,7 +56,7 @@ export function Checkout(){
                             
                                 <div className="flex justify-left items-center text-2xl font-bold">${item.price||"-"}</div>
                                 <div className="flex justify-left items-center text-2xl font-bold">{item.quantity||"-"}</div>
-                                <div className="flex justify-left items-center text-2xl font-bold text-primary">${Number(item.price*item.quantity).toFixed(2)||"-"}</div>
+                                <div className="flex justify-left items-center text-3xl font-bold">${Number(item.price*item.quantity).toFixed(2)||"-"}</div>
                             </>)
                         })}
                     </div>
@@ -62,7 +64,7 @@ export function Checkout(){
                     <div className="flex justify-between  items-center mt-4">
                         
                         <div className="text-left text-xl cursor-pointer bg-accent text-white p-3 rounded-lg" onClick={()=>navigate('/')}>Update Cart</div>
-                        <div className="flex p-3 bg-primary rounded-lg text-white">
+                        <div className="flex p-3 bg-black rounded-lg text-white">
                             <div className="text-2xl"> Total:</div>{" "}
                             <div className="text-2xl font-bold"> ${Number(bill).toFixed(2)}</div>    
                         </div>
