@@ -4,7 +4,7 @@ export function Header() {
   return (
     <>
     <div className="bg-accent overflow-x-hidden">
-      <div className="justify-around text-md relative items-center flex text-white animate-marquee-reverse"> 
+      <div className="justify-around relative items-center flex text-white animate-marquee-reverse"> 
         <div>🎉 Free shipping worldwide on all orders over $100 </div>
         <div>💥 Up to 50% OFF — across your favorite collections!</div>
         <div>🎁 Every order packed with care — because details matter.</div>

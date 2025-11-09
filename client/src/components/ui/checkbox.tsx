@@ -20,8 +20,6 @@ function Checkbox({
     setpage,
     categoryItems,
     setCategoryItems,
-    UserSearch,
-    inputvalue,setinput
   } = React.useContext(MarketContext);
   const isfilterselected = categoryItems.includes(condition);
 

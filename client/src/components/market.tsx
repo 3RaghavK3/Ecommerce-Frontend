@@ -164,7 +164,7 @@ export default function Market() {
 
           <div className="w-1/4 flex justify-between items-center">
             <Button
-            className="bg-primary px-16 text-lg"
+            className="bg-primary px-12"
             onClick={() => {
               setinput(UserSearch.current?.value);
               setCategoryItems([]);
@@ -173,7 +173,7 @@ export default function Market() {
           >
             Search
           </Button>
-           <ShoppingCart  onClick={()=>navigate("/checkout")}  className="w-6 h-6 cursor-pointer text-black"/>
+           <ShoppingCart  onClick={()=>navigate("/checkout")}  className="cursor-pointer text-black"/>
             <Avatar  className="cursor-pointer">
               <AvatarImage src="https://github.com/shadcn.png" />
               <AvatarFallback>CN</AvatarFallback>

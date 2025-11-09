@@ -30,36 +30,41 @@ export function Checkout(){
 
             :
             <>
-                <div className="text-3xl font-bold ">Checkout</div>
-            <div className="flex gap-8 mt-5 h-[85vh]">
-                <div className="w-3/4 flex flex-col">
-                    <div className="grid grid-cols-5   gap-0  overflow-y-auto border-2">
-                        <div className="flex justify-left items-center text-2xl">Product</div>
-                        <div className="flex justify-left items-center text-2xl pl-4">Title</div>
-                        <div className="flex justify-left items-center text-2xl ">Price</div>
-                        <div className="flex justify-left items-center text-2xl ">Quantity</div>
-                        <div className="flex justify-left items-center text-2xl ">Subtotal</div>
+                <div className="text-3xl font-bold ">Shopping Cart</div>
+            <div className="flex gap-8 my-5 h-[85vh] px-10">
+                <div className="w-3/4 flex flex-col bg-red">
+                    <div className="grid grid-cols-5 gap-2 overflow-y-auto border-2 p-4 rounded-xl">
+                        <div className="flex justify-left items-center text-xl font-semibold">Product</div>
+                        <div className="flex justify-left items-center text-xl pl-4 font-semibold">Title</div>
+                        <div className="flex justify-left items-center text-xl font-semibold">Price</div>
+                        <div className="flex justify-left items-center text-xl font-semibold ">Quantity</div>
+                        <div className="flex justify-left items-center text-xl font-semibold ">Subtotal</div>
+                    
+
+                       
 
                         {cart.map((item,index)=>{
                             bill+=item.price*item.quantity
                             return (<>
-                                <div className="flex justify-left h-24 w-24"><img src={item.images[0]||"-"}/></div>
+                                <div className="flex justify-left h-24 w-24 bg-muted rounded-lg border"><img src={item.images[0]||"-"}/></div>
                                 <div className="flex flex-col justify-center p-4"> 
                                     <div className="flex justify-left items-center  font-bold text-lg">{item.title||"-"}</div>
-                                    <div className="flex justify-left items-center text-md ">{item.brand||"-"}</div>
+                                    <div className="flex justify-left items-center text-base ">{item.brand||"-"}</div>
                                 </div>
                             
-                                <div className="flex justify-left items-center text-2xl ">${item.price||"-"}</div>
-                                <div className="flex justify-left items-center text-2xl">{item.quantity||"-"}</div>
-                                <div className="flex justify-left items-center text-2xl">${Number(item.price*item.quantity).toFixed(2)||"-"}</div>
+                                <div className="flex justify-left items-center text-2xl font-bold">${item.price||"-"}</div>
+                                <div className="flex justify-left items-center text-2xl font-bold">{item.quantity||"-"}</div>
+                                <div className="flex justify-left items-center text-2xl font-bold text-primary">${Number(item.price*item.quantity).toFixed(2)||"-"}</div>
                             </>)
                         })}
                     </div>
-                    <div className="flex justify-between border">
-                        <div className="text-left text-2xl font-semibold cursor-pointer" onClick={()=>navigate('/')}>Continue Shopping</div>
-                        <div className="flex pr-4">
-                            <div className="text-3xl"> Total:</div>{" "}
-                            <div className="text-3xl font-bold"> ${Number(bill).toFixed(2)}</div>    
+                
+                    <div className="flex justify-between  items-center mt-4">
+                        
+                        <div className="text-left text-xl cursor-pointer bg-accent text-white p-3 rounded-lg" onClick={()=>navigate('/')}>Update Cart</div>
+                        <div className="flex p-3 bg-primary rounded-lg text-white">
+                            <div className="text-2xl"> Total:</div>{" "}
+                            <div className="text-2xl font-bold"> ${Number(bill).toFixed(2)}</div>    
                         </div>
                          
                     </div>
@@ -101,7 +106,7 @@ export function Checkout(){
 
                     <div>
                          <Label htmlFor="address" >Delivery Address</Label>
-                         <Textarea id="address" placeholder="Flat 302, Green Heights Apartments, HSR Layout"/>
+                         <Textarea id="address" placeholder="Flat 302, Green Heights Apartments, HSR Layout"  className="h-25 overflow-y-auto"/>
                     </div>
                     
                     <div className="flex gap-4">
@@ -117,7 +122,7 @@ export function Checkout(){
                     </div>
                     
                     <div className="justify-center flex">
-                        <Button className="bg-[var(--assertive)] rounded-sm cursor-pointer" onClick={()=>{navigate("/payment")}}>Proceed to Pay ${Number(bill).toFixed(2)}</Button>
+                        <Button className="bg-[var(--assertive)]  rounded-sm cursor-pointer text-lg" onClick={()=>{navigate("/payment")}}>Proceed to Pay ${Number(bill).toFixed(2)}</Button>
                     </div>
                     
                 </div>

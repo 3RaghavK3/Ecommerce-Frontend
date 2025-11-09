@@ -1,73 +1,101 @@
-
+import { Card } from "@/components/ui/card";
 import { LoaderCircle } from "lucide-react";
-import {useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { SquareCheck } from "lucide-react";
 
-export function PaymentConfirm(){
+export function PaymentConfirm() {
+    const [loading, setLoading] = useState(false);
+    const [countdownTimer, setCountdown] = useState(2312320);
+    const navigate = useNavigate();
+    const [OrderId, setOrderId] = useState(null);
 
-    const [loading,setloading]=useState(false);
-    const [countdowntimer,setcountdown]=useState(3);
-    const navigate=useNavigate();
-    const [OrderId,setorderid]=useState(null);
+    const placeOrder = () => {
+        const current_order_id = Date.now() + Math.floor(Math.random() * 1000);
+        setOrderId(current_order_id);
+        const current_cart = JSON.parse(localStorage.getItem("CART"));
+        localStorage.setItem("CART", JSON.stringify([]));
 
-    
-    const placeOrder=()=>{
-            const current_order_id=Date.now()+Math.floor(Math.random()*1000);
-            setorderid(current_order_id);
-            const current_cart=JSON.parse(localStorage.getItem("CART"));
-            localStorage.setItem("CART",JSON.stringify([]));
-            
-            console.log(localStorage.getItem("PlacedOrders"));
-            const orders_placed=JSON.parse(localStorage.getItem("PlacedOrders")||'{}')
-            localStorage.setItem("PlacedOrders",JSON.stringify({...orders_placed,[current_order_id]:current_cart}));
-    }
-   
-    const countdown=()=>{
-        //every 1s it should keep firing out
+        console.log(localStorage.getItem("PlacedOrders"));
+        const orders_placed = JSON.parse(localStorage.getItem("PlacedOrders") || '{}');
+        localStorage.setItem("PlacedOrders", JSON.stringify({ ...orders_placed, [current_order_id]: current_cart }));
+    };
 
-        const interval=setInterval(() => {
-            setcountdown((prev)=>{
-                if(prev-1===0){
-                    clearInterval(interval)
-                    navigate("/")
+    const countdown = () => {
+        const interval = setInterval(() => {
+            setCountdown((prev) => {
+                if (prev - 1 === 0) {
+                    clearInterval(interval);
+                    navigate("/");
                     return 0;
-                } 
-                else return prev-1;
-            })
+                } else return prev - 1;
+            });
         }, 1000);
+    };
 
-    }
+    useEffect(() => {
+        setLoading(true);
+        placeOrder();
+        setTimeout(() => {
+            setLoading(false);
+            countdown();
+        }, 2500);
+    }, []);
 
+    return (
+        <div className="h-screen bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center p-4">
+            <Card className="flex flex-col items-center shadow-2xl px-8 py-16 justify-around">
+                {loading ? (
+                    <>
+                        <div className="text-4xl font-bold">
+                             Payment in Progress
+                        </div>
+                        <div>
+                            Hang tight! We're securely processing your payment
+                        </div>
 
-    useEffect(()=>{
-     setloading(true);
-     placeOrder();
-     {setTimeout(() => {
-             setloading(false);
-             countdown();
-        }, 2500);}
-    },[])
-
-
-
-    return(
-        
-       <>
-       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border-3 flex  flex-col items-center justify-center">
             
-            <div className="text-4xl flex flex-col items-center">
-                {loading?`Payment in Progress..`:
-            <>
-            <div>Order Id-{OrderId} successfully placed</div>
-            <div>Redirecting back to Homepage in {countdowntimer}</div>
-            </>
-           
-            }</div>
-            
-            {loading && <LoaderCircle className="animate-spin h-64 w-64"/>}
-       </div> 
-    </>
-        
-    )
+                        <div>
+                            <LoaderCircle className="animate-spin h-24 w-24 text-primary" />
+                        </div>
 
+
+                        <div className="flex justify-center gap-2">
+                            <span
+                                className="w-2.5 h-2.5 bg-accent rounded-full animate-bounce"
+                            />
+                            <span
+                                className="w-2.5 h-2.5 bg-accent rounded-full animate-bounce"
+                            />
+                            <span
+                                className="w-2.5 h-2.5 bg-accent rounded-full animate-bounce"
+                            />
+                        </div>
+
+                    </>
+                ) : (
+                    <>
+                        <SquareCheck className="w-24 h-24 bg-green-400"/>
+                        
+                        <div className="text-3xl font-bold">
+                            Order Placed Successfully!
+                        </div>
+
+                        <div className="border rounded-lg  bg-primary text-white flex flex-col items-center justify-center p-4">
+                            <div className="text-white ">Order ID</div>
+                            <div className="text-lg font-semibold">{OrderId}</div>
+                        </div>
+
+                        <div>
+                            Thank you for your purchase! Your order has been confirmed.
+                        </div>
+
+                        <div className="text-sm">
+                            Redirecting to homepage in <span className="text-primary">{countdownTimer}</span> seconds...
+                        </div>
+                    </>
+                )}
+            </Card>
+        </div>
+    );
 }

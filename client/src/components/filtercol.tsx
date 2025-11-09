@@ -15,7 +15,7 @@ export function FilterColumn() {
   return (
     <Card className="w-75 h-max px-3 ">
       <CardHeader className="w-full p-0 ">
-        <CardTitle className="flex flex-row justify-between text-xl font-semibold">
+        <CardTitle className="flex flex-row justify-between text-lg font-semibold">
           <div>Filter</div>
           <div
             className="text-primary cursor-pointer"

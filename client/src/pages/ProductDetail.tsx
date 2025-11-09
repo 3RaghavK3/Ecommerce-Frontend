@@ -86,7 +86,7 @@ export function ProductDetailPage() {
               <div>
                 <div className="flex justify-between ">
                     <div
-                  className="text-3xl font-extrabold">
+                  className="text-2xl font-extrabold">
                   {productInfo.title}
                   </div>
                   <div className="bg-accent text-white flex items-center rounded-sm px-1">
@@ -95,7 +95,7 @@ export function ProductDetailPage() {
                 </div>
               
       
-                {productInfo.brand && (<div className="text-xl">By {productInfo.brand}</div>)}
+                {productInfo.brand && (<div className="text-lg">By {productInfo.brand}</div>)}
                   
               </div>
 
@@ -121,19 +121,19 @@ export function ProductDetailPage() {
                 </div>
               </div>
 
-              <div className="text-5xl font-bold text-black">${productInfo.price}</div>
+              <div className="text-4xl font-bold text-black">${productInfo.price}</div>
               <div className="">{productInfo.description}</div>
 
 
               <div className="flex flex-col gap-5">
                 {!stockAvail && (
-                  <div className="text-3xl text-red-500 font-semibold">
+                  <div className="text-2xl text-red-500 font-semibold">
                     Out of Stock! Come back Later
                   </div>
                 )}
                 {stockAvail && (
                   <>
-                    <div className="flex gap-2.5 items-center text-xl">
+                    <div className="flex gap-2.5 items-center text-lg">
                       Quantity
                       <Button
                         onClick={() => {
@@ -168,10 +168,10 @@ export function ProductDetailPage() {
                         onClick={AddToCart}
                       >
                         <ShoppingCart />
-                        <span className="text-xl">Add to Cart</span>
+                        <span className="text-lg">Add to Cart</span>
                       </Button>
                       <Button
-                        className="flex-1 p-5 text-xl"
+                        className="flex-1 p-5 text-lg"
                         onClick={() => navigate("/checkout")}
                       >
                         Check Out

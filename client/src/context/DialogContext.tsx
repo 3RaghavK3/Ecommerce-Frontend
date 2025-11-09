@@ -21,8 +21,8 @@ export function DialogProvider({ children }) {
   return (
     <DialogContext.Provider value={{ SucessDialog, AlertDialog }}>
       
-      {toast.show && <div className="fixed top-0 right-0 m-4 z-50 "><SuccessToast successmsg={toast.msg} description={toast.desc} /></div>}
-      {alertToast.show && <div className="fixed top-0 right-0 m-4 z-50 "><AlertToast alertitle={alertToast.msg} alertdescription={alertToast.desc} /></div>}
+      {toast.show && <div className="fixed top-0 right-0 m-8 z-50 "><SuccessToast successmsg={toast.msg} description={toast.desc} /></div>}
+      {alertToast.show && <div className="fixed top-0 right-0 m-8 z-50 "><AlertToast alertitle={alertToast.msg} alertdescription={alertToast.desc} /></div>}
       {children}
     </DialogContext.Provider>
   );
