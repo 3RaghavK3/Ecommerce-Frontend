@@ -23,7 +23,7 @@ export function FilterCondition({ title, options = [] }: FilterConditionProps) {
     <>
       <Collapsible className="border-b-1">
         <CollapsibleTrigger
-          className="font-bold mb-1  flex flex-row justify-between w-full"
+          className="font-semibold text-lg mb-1  flex flex-row justify-between w-full"
           onClick={() => {
             setIsClicked(!isClicked);
           }}

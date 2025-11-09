@@ -58,9 +58,9 @@ export function ProductDetailPage() {
   return (
     <>
       <Header />
-      <div className="min-h-screen w-full px-50">
+      <div className="min-h-screen w-full px-50 m-0">
         <div
-          className="w-full text-sm text-muted-foreground my-15"
+          className="w-full text-sm text-muted-foreground mt-8"
           style={{ fontFamily: "Inter, sans-serif" }}
         >
           <span>{`${productInfo.brand}/`}</span>
@@ -82,20 +82,21 @@ export function ProductDetailPage() {
             </div>
 
           
-            <div className="flex-1 flex flex-col gap-5 px-10">
+            <div className="flex-1 flex flex-col gap-5 px-10 p-4">
               <div>
-                <div
-                  className="text-3xl font-extrabold"
-                  style={{ fontFamily: "Archivo, sans-serif" }}
-                >
+                <div className="flex justify-between ">
+                    <div
+                  className="text-3xl font-extrabold">
                   {productInfo.title}
-                </div>
-                <div className="flex flex-row justify-between w-full items-center">
-                  <div className="text-xl">By {productInfo.brand}</div>
-                  <div className="bg-accent text-white rounded-lg p-1 font-semibold">
+                  </div>
+                  <div className="bg-accent text-white flex items-center rounded-sm px-1">
                     {productInfo.discountPercentage}% Discount
                   </div>
                 </div>
+              
+      
+                {productInfo.brand && (<div className="text-xl">By {productInfo.brand}</div>)}
+                  
               </div>
 
               <div className="flex flex-row w-3/5 justify-between items-center text-muted-foreground">
@@ -121,6 +122,7 @@ export function ProductDetailPage() {
               </div>
 
               <div className="text-5xl font-bold text-black">${productInfo.price}</div>
+              <div className="">{productInfo.description}</div>
 
 
               <div className="flex flex-col gap-5">
@@ -131,8 +133,8 @@ export function ProductDetailPage() {
                 )}
                 {stockAvail && (
                   <>
-                    <div>Quantity</div>
-                    <div className="flex gap-2.5 items-center">
+                    <div className="flex gap-2.5 items-center text-xl">
+                      Quantity
                       <Button
                         onClick={() => {
                           if (quantity > 1) setQuantity(quantity - 1);
@@ -166,10 +168,10 @@ export function ProductDetailPage() {
                         onClick={AddToCart}
                       >
                         <ShoppingCart />
-                        <span>Add to Cart</span>
+                        <span className="text-xl">Add to Cart</span>
                       </Button>
                       <Button
-                        className="flex-1 p-5"
+                        className="flex-1 p-5 text-xl"
                         onClick={() => navigate("/checkout")}
                       >
                         Check Out

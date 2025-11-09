@@ -164,7 +164,7 @@ export default function Market() {
 
           <div className="w-1/4 flex justify-between items-center">
             <Button
-            className="bg-primary px-16"
+            className="bg-primary px-16 text-lg"
             onClick={() => {
               setinput(UserSearch.current?.value);
               setCategoryItems([]);
