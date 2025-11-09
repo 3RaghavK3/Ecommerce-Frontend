@@ -14,7 +14,7 @@ export function Banner() {
               Amazing <span className="text-accent">Product</span>
             </div>
                       
-          <Button className="bg-primary w-fit p-5">Shop Now</Button>
+          <Button className="bg-primary w-fit p-5 overflow-y-hidden">Shop Now</Button>
 
           </div>
         </div>

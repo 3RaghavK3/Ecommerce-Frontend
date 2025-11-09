@@ -1,18 +1,20 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useNavigate } from "react-router-dom";
-import { ShoppingCart } from "lucide-react";
-import { Bell } from "lucide-react";
 export function Header() {
-  const navigate=useNavigate();
+  
   return (
-    <div className="flex justify-end items-center  gap-5  h-12 w-full bg-white text-gray-200 border-b border-b-[#636AE8] border-b-[1px] px-4">
-      <ShoppingCart  onClick={()=>navigate("/checkout")}  className="w-6 h-6 cursor-pointer text-black"/>
-      <Bell className="w-6 h-6 cursor-pointer text-black"/>
-
-      <Avatar  className="cursor-pointer">
-        <AvatarImage src="https://github.com/shadcn.png" />
-        <AvatarFallback>CN</AvatarFallback>
-      </Avatar>
+    <>
+    <div className="bg-accent p-1 overflow-x-hidden font-semibold">
+      <div className="justify-around text-xl relative items-center flex text-white animate-marquee-reverse"> 
+        <div>🎉 Free shipping worldwide on all orders over $100 </div>
+        <div>💥 Up to 50% OFF — across your favorite collections!</div>
+        <div>🎁 Every order packed with care — because details matter.</div>
+      </div>
     </div>
+    
+    <div className="flex justify-center">
+      <div className="text-primary font-bold text-2xl p-8">Shopera</div>
+    </div>
+
+     {}
+    </>
   );
 }

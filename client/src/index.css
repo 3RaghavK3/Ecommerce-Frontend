@@ -1,9 +1,12 @@
 @import "tailwindcss";
 @import "@fontsource/inter/400.css";
-@import "@fontsource/archivo/700.css"
+@import "@fontsource/archivo/700.css";
+@import url("https://fonts.googleapis.com/css2?family=Red+Hat+Text:ital,wght@0,500;1,500&display=swap");
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  --default-font-family:"Red Hat Text";
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -43,6 +46,7 @@
 
 :root {
   --radius: 0.625rem;
+  --default-font-family: "Pridi", serif;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -121,3 +125,14 @@
   }
 }
 
+@keyframes marquee {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@layer utilities {
+  .animate-marquee-reverse {
+    animation: marquee 15s linear infinite reverse; 
+  }
+ 
+}

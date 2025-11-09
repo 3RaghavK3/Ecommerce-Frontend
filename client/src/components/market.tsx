@@ -11,6 +11,8 @@ import {
 import React, { useContext } from "react";
 import { useEffect, useRef, useState } from "react";
 import { Productcard } from "./ProductCard";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { ShoppingCart } from "lucide-react";
 import {
   Pagination,
   PaginationContent,
@@ -21,6 +23,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { MarketContext } from "@/context/MarketContext";
+import { useNavigate } from "react-router-dom";
 export default function Market() {
   const {
     market,
@@ -40,22 +43,26 @@ export default function Market() {
   const UserSearch = useRef(null);
   const multiplemarket = useRef([]);
   const [inputvalue,setinput]=useState("");
-  const [history,sethistory]=useState([]);
+  const [history,sethistory]=useState({store:[],show:false});
 
   const no_of_history=3;
+  const navigate=useNavigate();
 
-  const changehistory=()=>{
-      if(history.length>=no_of_history){
-          sethistory(prev=>[UserSearch.current?.value,...prev.slice(0,-1)])
-      }
-      else sethistory(prev=>[UserSearch.current?.value,...prev])
-    
+  const changehistory = () => {
+      sethistory(prev=>({...prev,store:[UserSearch.current?.value, ...prev.store].slice(0,no_of_history)}))
   }
 
   const showhistory=()=>
-      history.map((searchq)=>
+      history.store.map((searchq)=>
 
-      <div className="h-8 bg-secondary px-4 rounded-sm border-1 text-muted-foreground flex items-center ">
+      <div className="h-8 bg-secondary px-4 rounded-sm border-1 text-muted-foreground flex items-center cursor-pointer" onMouseDown={(e) => {
+    e.preventDefault();   
+    UserSearch.current.value = searchq;
+    setinput(searchq);
+    setCategoryItems([]);
+    setpage(1);
+    sethistory(prev => ({ ...prev, show: false }));
+  }}>
           <History className="relative -left-2 h-5 w-5"/>
           {searchq}
       </div>)
@@ -137,24 +144,27 @@ export default function Market() {
   return (
     <>
       <div className="flex flex-col w-full gap-5">
-        <div className="flex flex-row gap-5">
-          <div className="relative w-full flex-[3_1_0%]">
-            <Search className="relative top-7 left-2 text-muted-foreground h-5 " />
+        <div className="flex flex-row gap-4 items-start">
+          <div className="w-4/5">
             <Input
               ref={UserSearch}
               type="text"
               placeholder="Search..."
-              className="pl-10 flex-3 bg-muted text-muted-foreground"
+              className="pl-5 flex-3 bg-muted text-muted-foreground"
+              onFocus={()=>sethistory(prev=>({...prev,show:true}))}      
+              onBlur={() => sethistory(prev => ({ ...prev, show: false }))}
             />
-            <div className="mt-2">
+      
+           {history.show && <div className="mt-2">
                   <div className="flex flex-col gap-1">{showhistory()}</div>
             </div>
+}
           </div>
           
-          
 
-          <Button
-            className="bg-primary flex-1"
+          <div className="w-1/4 flex justify-between items-center">
+            <Button
+            className="bg-primary px-16"
             onClick={() => {
               setinput(UserSearch.current?.value);
               setCategoryItems([]);
@@ -163,7 +173,17 @@ export default function Market() {
           >
             Search
           </Button>
+           <ShoppingCart  onClick={()=>navigate("/checkout")}  className="w-6 h-6 cursor-pointer text-black"/>
+            <Avatar  className="cursor-pointer">
+              <AvatarImage src="https://github.com/shadcn.png" />
+              <AvatarFallback>CN</AvatarFallback>
+      </Avatar> 
+          </div>
+    
         </div>
+
+
+       
       
 
         <div className="flex flex-row  justify-between w-full ">
