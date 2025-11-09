@@ -1,12 +1,12 @@
 @import "tailwindcss";
 @import "@fontsource/inter/400.css";
 @import "@fontsource/archivo/700.css";
-@import url("https://fonts.googleapis.com/css2?family=Red+Hat+Text:ital,wght@0,500;1,500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Jost:ital@0;1&display=swap");
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --default-font-family:"Red Hat Text";
+  --default-font-family:"Jost";
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -59,7 +59,7 @@
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.556 0 0);
-  --accent: #E75485;
+  --accent: rgb(231, 84, 133);
   --accent-foreground: #FFFFFF;
   --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.922 0 0);
@@ -136,3 +136,4 @@
   }
  
 }
+

@@ -246,11 +246,11 @@ export default function Market() {
         </div>
 
         <div className="w-full flex justify-end">
-          <div>
+          <div >
             <Pagination>
-              <PaginationContent>
-                <PaginationItem>
-                  <PaginationPrevious
+              <PaginationContent className="cursor-pointer">
+                <PaginationItem >
+                  <PaginationPrevious 
                     disabled={page === 1}
                     onClick={() => {
                       if (page > 1) setpage(page - 1);

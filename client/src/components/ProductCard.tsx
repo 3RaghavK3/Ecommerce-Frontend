@@ -57,7 +57,7 @@ export function Productcard({
   return (
     <>
       <Card
-        className="h-full border-black rounded-sm shadow-xl p-0 flex flex-col justify-between hover:outline-2  hover:outline-black transition-transform duration-500 hover:scale-101"
+        className="h-full border-black rounded-sm shadow-xl p-0 flex flex-col justify-between transition-transform duration-500 hover:scale-101"
       >
         <CardContent className="cursor-pointer p-0" onClick={() => {
           navigate(`/product/getInfo/${id}`);
@@ -78,7 +78,7 @@ export function Productcard({
         <CardFooter className="flex justify-between items-center px-8 pb-8">
           <div className="flex items-center gap-2">
              <span className="text-4xl font-bold">${price}</span>
-             <span className="bg-accent rounded-sm text-white p-1">-{discountPercentage}%</span>
+             <span className="bg-accent rounded-sm text-white p-1 px-2">-{discountPercentage}%</span>
           </div>
           <Button className="text-xl h-10 w-10 cursor-pointer" onClick={()=>quickAddtoCart()}><ShoppingCart/></Button>
         </CardFooter>
