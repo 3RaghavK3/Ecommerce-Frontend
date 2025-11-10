@@ -21,7 +21,7 @@ export function ProductDetailPage() {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
 
-    fetch(`http://localhost:3000/products/getinfo?id=${id}`)
+    fetch(`${import.meta.env.VITE_API_URL}/products/getinfo?id=${id}`)
       .then((res) => res.json())
       .then((data) => {
         setProductInfo(data.data);
@@ -30,7 +30,7 @@ export function ProductDetailPage() {
       .catch((e) => console.error(e));
 
     fetch(
-      `http://127.0.0.1:8000/recommend-products?product_id=${id}&num_recommendations=3`
+      `${import.meta.env.VITE_ML_URL}/recommend-products?product_id=${id}&num_recommendations=3`
     )
       .then((res) => res.json())
       .then((x) => setRecommended(x))

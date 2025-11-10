@@ -37,7 +37,7 @@ export function Productcard({
 
       const existingid=cart.findIndex((product)=>product.id==id)
        if(existingid==-1){
-                fetch(`http://localhost:3000/products/getinfo?id=${id}`)
+                fetch(`${import.meta.env.VITE_API_URL}/products/getinfo?id=${id}`)
                 .then((res) => res.json())
                 .then((data)=>{
                     localStorage.setItem("CART",JSON.stringify([...cart,{...data.data,"quantity":1}]))

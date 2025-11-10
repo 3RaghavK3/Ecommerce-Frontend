@@ -7,7 +7,7 @@ export function FilterColumn() {
   const [Category, setCategory] = useState([]);
   const { categoryItems, setCategoryItems } = useContext(MarketContext);
   useEffect(() => {
-    fetch("http://localhost:3000/filters")
+    fetch("${import.meta.env.VITE_API_URL}/filters")
       .then((res) => res.json())
       .then((x) => setCategory(x.data));
   }, []);

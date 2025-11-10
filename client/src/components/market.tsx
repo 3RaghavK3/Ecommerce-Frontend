@@ -77,7 +77,7 @@ export default function Market() {
         const category = categoryItems[index];
 
         const response = await fetch(
-          `http://localhost:3000/filter/categories?category=${category}`,
+          `${import.meta.env.VITE_API_URL}/filter/categories?category=${category}`,
         );
         const res = await response.json();
   
@@ -106,14 +106,14 @@ export default function Market() {
   if (categoryItems.length === 0) {
     if (inputvalue.length > 0) {
       changehistory(); // call it as a normal statement
-      url = `http://localhost:3000/searchq?inputvalue=${inputvalue}&page=${page}&sortstate=${sort}`;
+      url = `${import.meta.env.VITE_API_URL}/searchq?inputvalue=${inputvalue}&page=${page}&sortstate=${sort}`;
     } else {
-      url = `http://localhost:3000/products?page=${page}&sortstate=${sort}`;
+      url = `${import.meta.env.VITE_API_URL}/products?page=${page}&sortstate=${sort}`;
     }
   } else if (categoryItems.length === 1) {
     setinput("");
     if (UserSearch.current) UserSearch.current.value = "";
-    url = `http://localhost:3000/filter/category?category=${categoryItems[0]}&page=${page}&sortstate=${sort}`;
+    url = `${import.meta.env.VITE_API_URL}/filter/category?category=${categoryItems[0]}&page=${page}&sortstate=${sort}`;
   } else {
     setmarket(
       multiplemarket.current.slice(
