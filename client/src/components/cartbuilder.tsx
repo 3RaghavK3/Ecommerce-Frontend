@@ -8,7 +8,7 @@ export function Cartbuilder({ cart = { items: [], totalq: 0, totalbill: 0 } }) {
 
     if (orderId) {
         const placeorders = JSON.parse(localStorage.getItem("PlacedOrders") || '[]');
-        object = placeorders[placeorders.findIndex(p => orderId == p.OrderId)]
+        object = placeorders[placeorders.findIndex(p=> orderId == p.OrderId)]
         cart=object.details
     }
 

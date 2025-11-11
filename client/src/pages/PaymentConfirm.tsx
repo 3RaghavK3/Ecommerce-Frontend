@@ -6,7 +6,7 @@ import { Check } from "lucide-react";
 
 export function PaymentConfirm() {
     const [loading, setLoading] = useState(false);
-    const [countdownTimer, setCountdown] = useState(2312320);
+    const [countdownTimer, setCountdown] = useState(3);
     const navigate = useNavigate();
     const [OrderId, setOrderId] = useState(null);
 
