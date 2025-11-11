@@ -11,6 +11,7 @@ import { Skeleton } from "./ui/skeleton";
 import { useNavigate } from "react-router-dom";
 import { ShoppingCart } from "lucide-react";
 import { DialogContext } from "@/context/DialogContext";
+import { MarketContext } from "@/context/MarketContext";
 
 export function Productcard({
   id,
@@ -31,28 +32,8 @@ export function Productcard({
   
   const navigate = useNavigate();
   const {SucessDialog} = useContext(DialogContext);
-
-  const quickAddtoCart=()=>{
-      const cart=JSON.parse(localStorage.getItem("CART")||"[]")
-
-      const existingid=cart.findIndex((product)=>product.id==id)
-       if(existingid==-1){
-                fetch(`${import.meta.env.VITE_API_URL}/products/getinfo?id=${id}`)
-                .then((res) => res.json())
-                .then((data)=>{
-                    localStorage.setItem("CART",JSON.stringify([...cart,{...data.data,"quantity":1}]))
-                    SucessDialog({ msg: "Added to cart!", desc: `1 x ${data.data.title} has been added. You can review your cart now.`  });
-                })
-                .catch((e)=>console.log(e.msg))
-            }
-            else{
-                cart[existingid].quantity+=1;
-                localStorage.setItem("CART",JSON.stringify(cart))
-                SucessDialog({ msg: "Added to cart!", desc: `1 x ${cart[existingid].title} has been added. You can review your cart now.`  });
-
-            }
-            
-        }
+  const {AddToCart}=useContext(MarketContext)
+ 
 
   return (
     <>
@@ -80,7 +61,15 @@ export function Productcard({
              <span className="text-3xl font-bold">${price}</span>
              <span className="bg-accent rounded-sm text-white p-1 px-2">-{discountPercentage}%</span>
           </div>
-          <Button className="text-xl h-10 w-10 cursor-pointer" onClick={()=>quickAddtoCart()}><ShoppingCart/></Button>
+          <Button className="text-xl h-10 w-10 cursor-pointer" onClick={()=>{ 
+            fetch(`${import.meta.env.VITE_API_URL}/products/getinfo?id=${id}`)
+                .then((res) => res.json())
+                .then((data)=>{
+                    AddToCart(data.data)
+                })
+                .catch((e)=>console.log(e.msg))
+
+          }}><ShoppingCart/></Button>
         </CardFooter>
       </Card>
     </>

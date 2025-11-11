@@ -51,6 +51,7 @@ export default function Market() {
   const changehistory = () => {
       sethistory(prev=>({...prev,store:[UserSearch.current?.value, ...prev.store].slice(0,no_of_history)}))
   }
+  console.log(import.meta.env.VITE_API_URL)
 
   const showhistory=()=>
       history.store.map((searchq)=>

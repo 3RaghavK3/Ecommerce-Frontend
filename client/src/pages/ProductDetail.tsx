@@ -7,16 +7,17 @@ import { Button } from "@/components/ui/button";
 import TabsComponent from "@/components/tabs";
 import { Productcard } from "@/components/ProductCard";
 import { DialogContext } from "@/context/DialogContext";
+import { MarketContext } from "@/context/MarketContext";
 
 export function ProductDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { SucessDialog, AlertDialog } = useContext(DialogContext);
-
+  const { AlertDialog } = useContext(DialogContext);
   const [productInfo, setProductInfo] = useState({});
   const [recommendended, setRecommended] = useState([]);
   const [quantity, setQuantity] = useState(1);
   const [stockAvail, setStockAvail] = useState(true);
+  const {AddToCart}=useContext(MarketContext)
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -37,23 +38,13 @@ export function ProductDetailPage() {
       .catch((e) => console.error(e));
   }, [id]);
 
-  const AddToCart = () => {
-    const cart=JSON.parse(localStorage.getItem("CART") || "[]")
-    const existingId = cart.findIndex((product) => product.id == id);
 
-    if (existingId === -1) {
-      localStorage.setItem(
-        "CART",
-        JSON.stringify([...cart, { ...productInfo, quantity }])
-      );
-    } else {
-      cart[existingId].quantity += quantity;
-      localStorage.setItem("CART", JSON.stringify(cart));
-      
-    }
-    SucessDialog({ msg: "Added to cart!", desc: `${quantity} x ${productInfo.title} has been added. You can review your cart now.`  });
-    
-  };
+  //cart={
+  // items:[{},{}],
+  // totalq=<number>,
+  // totalbill=<number>,
+  
+  
 
   return (
     <>
@@ -165,7 +156,7 @@ export function ProductDetailPage() {
                     <div className="w-full flex flex-row gap-5 mt-5">
                       <Button
                         className="flex-1 text-primary border border-primary bg-background p-5 hover:bg-muted"
-                        onClick={AddToCart}
+                        onClick={()=>AddToCart(productInfo,quantity)}
                       >
                         <ShoppingCart />
                         <span className="text-lg">Add to Cart</span>
