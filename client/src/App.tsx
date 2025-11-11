@@ -6,6 +6,7 @@ import { MarketProvider } from "./context/MarketContext";
 import { PaymentConfirm } from "./pages/PaymentConfirm";
 import { DialogProvider } from "./context/DialogContext";
 import { PastOrders } from "./pages/Pastorders";
+import { Cartbuilder } from "./components/cartbuilder";
 
 function App() {
   return (
@@ -17,6 +18,8 @@ function App() {
          <Route path="/checkout" element={<Checkout />} />
          <Route path="/payment" element={<PaymentConfirm />} />
          <Route path="/pastOrders" element={<PastOrders/>} />
+         <Route path="/orderid/:orderId" element={<Cartbuilder/>} />
+       
       </Routes>
     </MarketProvider>
     </DialogProvider>

@@ -15,12 +15,17 @@ export function PaymentConfirm() {
         const orderDate=new Date().toLocaleDateString();
         const orderTime=new Date().toLocaleTimeString();
         setOrderId(current_order_id);
-        const current_cart = JSON.parse(localStorage.getItem("CART"));
-        localStorage.setItem("CART", JSON.stringify([]));
+        const cart = JSON.parse(localStorage.getItem("CART"));
+        localStorage.setItem("CART", JSON.stringify({ items: [], totalq: 0, totalbill: 0 }));
 
-        console.log(localStorage.getItem("PlacedOrders"));
-        const orders_placed = JSON.parse(localStorage.getItem("PlacedOrders") || '{}');
-        localStorage.setItem("PlacedOrders", JSON.stringify({ ...orders_placed, [current_order_id]: {current_cart,orderDate,orderTime}}));
+        const orders_placed = JSON.parse(localStorage.getItem("PlacedOrders")||'[]')
+        localStorage.setItem("PlacedOrders", JSON.stringify(
+            [...orders_placed,
+                {OrderId:current_order_id,
+                    Date:orderDate,
+                    Time:orderTime,
+                    details:cart
+                }]));
     };
 
     const countdown = () => {

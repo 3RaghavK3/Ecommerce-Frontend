@@ -175,7 +175,7 @@ export default function Market() {
             Search
           </Button>
            <ShoppingCart  onClick={()=>navigate("/checkout")}  className="cursor-pointer text-black"/>
-            <Avatar  className="cursor-pointer">
+            <Avatar  className="cursor-pointer" onClick={()=>navigate("/pastOrders")}>
               <AvatarImage src="https://github.com/shadcn.png" />
               <AvatarFallback>CN</AvatarFallback>
       </Avatar> 

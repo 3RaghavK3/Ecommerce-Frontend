@@ -14,6 +14,7 @@ export function MarketProvider({ children }) {
   const [sort, setSort] = useState("default");
   const [cart, setcart] = useState([]);
   const {SucessDialog}=useContext(DialogContext);
+  
   const AddToCart = (productinfo,quantity=1) => {
     const cart=JSON.parse(localStorage.getItem("CART") || "{}")
     const existingId = (cart.items || []).findIndex((product) => product.id == productinfo.id);
