@@ -31,3 +31,7 @@ def recommend_products(product_id:int,num_recommendations:int):
     top_similar_products = df.iloc[indices[0]].iloc[1:num_recommendations+1]
     top_similar_products['brand'] = top_similar_products['brand'].fillna("")
     return top_similar_products.to_dict(orient="records")
+
+@app.get("/health")
+def health():
+    return {"status":"ok","message":"Alive"}

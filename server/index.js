@@ -236,3 +236,9 @@ app.get("/filter/categories",async(req,res)=>{
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });
+app.get("/health",(req,res)=>{
+    return res.status(200).json({
+        success:true,
+        message:"ok"
+    })
+})
