@@ -34,4 +34,4 @@ def recommend_products(product_id:int,num_recommendations:int):
 
 @app.get("/health")
 def health():
-    return {"status":"ok","message":"Alive"}
+    return {"status":"ok","message":"Alive"},200
