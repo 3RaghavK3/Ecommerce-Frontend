@@ -21,9 +21,9 @@ export function FilterCondition({ title, options = [] }: FilterConditionProps) {
 
   return (
     <>
-      <Collapsible className="border-b-1">
+      <Collapsible defaultOpen className="border-b-1">
         <CollapsibleTrigger
-          className="font-semibold text-base mb-1  flex flex-row justify-between w-full"
+          className="font-semibold  mb-1  flex flex-row justify-between w-full"
           onClick={() => {
             setIsClicked(!isClicked);
           }}

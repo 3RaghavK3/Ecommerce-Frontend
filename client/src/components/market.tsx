@@ -1,5 +1,5 @@
 import { Input } from "./ui/input";
-import { ChevronDown, ChevronRight, Search, X } from "lucide-react";
+import { ChevronDown, ChevronRight, Search, SlidersHorizontal, X } from "lucide-react";
 import { Button } from "./ui/button";
 import { History } from "lucide-react";
 import {
@@ -38,6 +38,8 @@ export default function Market() {
     setCategoryItems,
     sort,
     setSort,
+    open,
+    setOpen
   } = useContext(MarketContext);
   const [isOpen, setIsOpen] = useState(false);
   const UserSearch = useRef(null);
@@ -56,7 +58,7 @@ export default function Market() {
   const showhistory=()=>
       history.store.map((searchq)=>
 
-      <div className="h-8 bg-secondary px-4 rounded-sm border-1 text-muted-foreground flex items-center cursor-pointer" onMouseDown={(e) => {
+      <div className="h-8 bg-secondary px-4 border-1 text-muted-foreground flex items-center cursor-pointer z-10 text-sm lg:text-sm" onMouseDown={(e) => {
     e.preventDefault();   
     UserSearch.current.value = searchq;
     setinput(searchq);
@@ -144,28 +146,33 @@ export default function Market() {
 
   return (
     <>
-      <div className="flex flex-col w-full gap-5">
-        <div className="flex flex-row gap-4 items-start">
-          <div className="w-4/5">
+      
+      <div className="flex flex-col w-full gap-5 text-sm md:text-base lg:text-lg">
+        <div className="flex flex-row b justify-between items-center">
+          <div className="w-5 h-5 md:w-6 md:h-6 flex items-center lg:hidden" onClick={()=>setOpen(true)} >
+             <SlidersHorizontal/>
+          </div>
+          <div className="md:w-3/5 flex flex-col focus:ring-offset-0 ">
             <Input
               ref={UserSearch}
               type="text"
               placeholder="Search..."
-              className="pl-5 flex-3 bg-muted text-muted-foreground"
-              onFocus={()=>sethistory(prev=>({...prev,show:true}))}      
+              className="pl-5 flex-3 bg-muted"
+              onFocus={()=>{sethistory(prev=>({...prev,show:true}))}
+            }      
               onBlur={() => sethistory(prev => ({ ...prev, show: false }))}
             />
       
            {history.show && <div className="mt-2">
-                  <div className="flex flex-col gap-1">{showhistory()}</div>
+                  <div className="absolute flex flex-col">{showhistory()}</div>
             </div>
 }
           </div>
           
 
-          <div className="w-1/4 flex justify-between items-center">
+          <div className="flex justify-between items-center gap-2 md:gap-3 lg:gap-5 ">
             <Button
-            className="bg-primary px-12"
+            className="bg-primary px-3 py-0 md:px-8 lg:px-12 "
             onClick={() => {
               setinput(UserSearch.current?.value);
               setCategoryItems([]);
@@ -174,8 +181,8 @@ export default function Market() {
           >
             Search
           </Button>
-           <ShoppingCart  onClick={()=>navigate("/checkout")}  className="cursor-pointer text-black"/>
-            <Avatar  className="cursor-pointer" onClick={()=>navigate("/pastOrders")}>
+           <ShoppingCart  onClick={()=>navigate("/checkout")}  className="cursor-pointer text-black w-6 h-6 md:w-7 md:h-7"/>
+            <Avatar  className="cursor-pointer w-6 h-6  md:w-7 md:h-7" onClick={()=>navigate("/pastOrders")}>
               <AvatarImage src="https://github.com/shadcn.png" />
               <AvatarFallback>CN</AvatarFallback>
       </Avatar> 
@@ -183,11 +190,10 @@ export default function Market() {
     
         </div>
 
-
-       
-      
-
-        <div className="flex flex-row  justify-between w-full ">
+        <div>
+          
+        </div>
+        <div className="flex flex-row relative justify-between w-full">
           <div>
             <span className="text-2xl font-medium mr-1">Product Results</span>
             <span className="text-muted-foreground">
@@ -237,10 +243,10 @@ export default function Market() {
             </div>
           </div>
         </div>
-
+        
         <div className="grid grid-cols-3 w-full gap-5 items-stretch">
           {market?.map((item, idx) => (
-            <div key={`${item.id}-${idx}`} className="w-full">
+            <div key={`${item.id}-${idx}`} className="w-full ">
               <Productcard {...item} />
             </div>
           ))}

@@ -141,7 +141,7 @@
 @media (min-width:768px) {
   @layer utilities{
      .animate-marquee-reverse {
-    animation: marquee 17.5s linear infinite reverse; 
+    animation: marquee 17s linear infinite reverse; 
   }
 
   }  

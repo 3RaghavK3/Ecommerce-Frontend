@@ -14,6 +14,7 @@ export function MarketProvider({ children }) {
   const [sort, setSort] = useState("default");
   const [cart, setcart] = useState([]);
   const {SucessDialog}=useContext(DialogContext);
+  const [open, setOpen] = useState(false);
   
   const AddToCart = (productinfo,quantity=1) => {
     const cart=JSON.parse(localStorage.getItem("CART") || "{}")
@@ -52,7 +53,10 @@ export function MarketProvider({ children }) {
         setSort,
         cart, 
         setcart,
-        AddToCart
+        AddToCart,
+        open,
+        setOpen
+        
       }}
     >
       {children}

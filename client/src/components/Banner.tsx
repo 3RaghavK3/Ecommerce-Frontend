@@ -7,7 +7,7 @@ export function Banner() {
       <div className="w-full flex flex-col  items-center md:flex-row items-center  bg-[#F2F2FD] p-5 md:p-10 md:px-15 lg:px-40" >
         <div className="h-[70%]flex flex-col text-center md:text-left  flex-1">
           <span className="text-sm md:text-base lg:text-xl">Absolutely hot collections</span>
-          <div className="text-2xl md:text-4xl lg:text-6xl leading-[1.15] gap-10">
+          <div className="text-3xl md:text-4xl lg:text-5xl leading-[1.15] gap-10">
             <div className="font-semibold">The Best Place To</div>
             <div className="font-semibold"> Find And Buy</div>
             <div className="font-bold">
