@@ -50,7 +50,7 @@ export function Productcard({
     
             <img
               src={images?.[0]}
-              className="h-70"
+              className="h-50 md:h-60 lg:h-70"
             />
           </div>
      
