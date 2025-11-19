@@ -50,11 +50,11 @@ export function PaymentConfirm() {
     }, []);
 
     return (
-        <div className="h-screen bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center p-4">
+        <div className="h-screen bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center p-4 text-center">
             <Card className="flex flex-col items-center shadow-2xl px-8 py-16 justify-around">
                 {loading ? (
                     <>
-                        <div className="text-4xl font-bold">
+                        <div className="text-2xl md:text-3xl lg:text-4xl font-bold">
                              Payment in Progress
                         </div>
                         <div>
@@ -84,20 +84,20 @@ export function PaymentConfirm() {
                     <>
                         <Check className="w-24 h-24 text-green-400"/>
                         
-                        <div className="text-3xl font-bold">
+                        <div className="text-2xl md:text-3xl lg:text-4xl  font-bold">
                             Order Placed Successfully!
                         </div>
 
                         <div className="border rounded-lg  bg-primary text-white flex flex-col items-center justify-center p-4">
                             <div className="text-white ">Order ID</div>
-                            <div className="text-lg font-semibold">{OrderId}</div>
+                            <div className="text-lg md:text-xl font-semibold">{OrderId}</div>
                         </div>
 
                         <div>
                             Thank you for your purchase! Your order has been confirmed.
                         </div>
 
-                        <div className="text-sm">
+                        <div className="text-sm md:text-base">
                             Redirecting to homepage in <span className="text-primary">{countdownTimer}</span> seconds...
                         </div>
                     </>
