@@ -18,5 +18,4 @@ function Label({
     />
   );
 }
-
 export { Label };

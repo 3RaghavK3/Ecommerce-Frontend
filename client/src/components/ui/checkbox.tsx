@@ -37,6 +37,7 @@ function Checkbox({
         } else {
           setCategoryItems((prev) => prev.filter((x) => x !== condition));
         }
+        setpage(1);
       }}
       {...props}
     >

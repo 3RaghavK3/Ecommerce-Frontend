@@ -8,7 +8,7 @@ export default function TabsComponent({ productInfo }) {
 
   const links = [];
   return (
-    <div className="mt-10">
+    <div className="mt-10 text-sm md:text-base">
       <div className="flex border-b border-gray-300 text-sm font-semibold">
         <button
           onClick={() => setSelectedTab("description")}
@@ -38,7 +38,7 @@ export default function TabsComponent({ productInfo }) {
             <div className="text-sm text-muted-foreground  ">
               {productInfo.description}
             </div>
-            <div className="grid grid-cols-3 text-base py-10 text-sm text-muted-foreground">
+            <div className="grid grid-cols-2 md:grid-cols-3  py-10 text-sm text-muted-foreground">
               <AdditionalProductInfo productInfo={productInfo} />
             </div>
           </div>
@@ -48,7 +48,7 @@ export default function TabsComponent({ productInfo }) {
           <div className="flex flex-col gap-10 pb-10">
             {productInfo.reviews.map((review) => {
               return (
-                <div className="px-2">
+                <div className="px-2 text-sm md:text-base">
                   <div className="flex flex-row items-center gap-2.5">
                     <div className="h-10 w-10">
                       <Avatar>

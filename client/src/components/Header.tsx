@@ -11,6 +11,8 @@ export function Header() {
           View your cart anytime by clicking the cart icon.
         </div>
       </div>
+
+      
     </div>
     
     <div className="flex justify-center h-15 md:h-18 lg:h-20 border-2">
