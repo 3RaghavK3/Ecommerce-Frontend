@@ -134,6 +134,25 @@
   .animate-marquee-reverse {
     animation: marquee 20s linear infinite reverse; 
   }
- 
+
 }
 
+
+@media (min-width:768px) {
+  @layer utilities{
+     .animate-marquee-reverse {
+    animation: marquee 17.5s linear infinite reverse; 
+  }
+
+  }  
+}
+
+
+@media (min-width:1024px) {
+  @layer utilities{
+     .animate-marquee-reverse {
+    animation: marquee 15s linear infinite reverse; 
+  }
+
+  }  
+}
