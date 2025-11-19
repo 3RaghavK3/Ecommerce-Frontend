@@ -44,7 +44,7 @@ export function Productcard({
           navigate(`/product/getInfo/${id}`);
         }}>
           <div className="text-center bg-primary">
-            <CardTitle className="text-xl p-2 text-white">{title}</CardTitle>
+            <CardTitle className="text-lg md:text-xl p-2 text-white">{title}</CardTitle>
           </div>
           <div className="flex items-center justify-center">
     
@@ -58,7 +58,7 @@ export function Productcard({
         </CardContent>
         <CardFooter className="flex justify-between items-center px-8 pb-8">
           <div className="flex items-center gap-2">
-             <span className="text-3xl font-bold">${price}</span>
+             <span className="text-xl md:text-3xl font-bold">${price}</span>
              <span className="bg-accent rounded-sm text-white p-1 px-2">-{discountPercentage}%</span>
           </div>
           <Button className="text-xl h-10 w-10 cursor-pointer" onClick={()=>{ 

@@ -195,7 +195,7 @@ export default function Market() {
         </div>
         <div className="flex flex-row relative justify-between w-full">
           <div>
-            <span className="text-2xl font-medium mr-1">Product Results</span>
+            <span className="mr-1">Product Results</span>
             <span className="text-muted-foreground">
               {totalProducts} Products
             </span>
@@ -244,7 +244,7 @@ export default function Market() {
           </div>
         </div>
         
-        <div className="grid grid-cols-3 w-full gap-5 items-stretch">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full gap-5">
           {market?.map((item, idx) => (
             <div key={`${item.id}-${idx}`} className="w-full ">
               <Productcard {...item} />
