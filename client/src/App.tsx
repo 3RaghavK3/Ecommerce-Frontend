@@ -11,17 +11,16 @@ import { Cartbuilder } from "./components/cartbuilder";
 function App() {
   return (
     <DialogProvider>
-    <MarketProvider>
-      <Routes>
-        <Route path="/" element={<Homepage />} />
-        <Route path="/product/getinfo/:id" element={<ProductDetailPage />} />
-         <Route path="/checkout" element={<Checkout />} />
-         <Route path="/payment" element={<PaymentConfirm />} />
-         <Route path="/pastOrders" element={<PastOrders/>} />
-         <Route path="/orderid/:orderId" element={<Cartbuilder/>} />
-       
-      </Routes>
-    </MarketProvider>
+      <MarketProvider>
+        <Routes>
+          <Route path="/" element={<Homepage />} />
+          <Route path="/product/getinfo/:id" element={<ProductDetailPage />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/payment" element={<PaymentConfirm />} />
+          <Route path="/pastOrders" element={<PastOrders />} />
+          <Route path="/orderid/:orderId" element={<Cartbuilder />} />
+        </Routes>
+      </MarketProvider>
     </DialogProvider>
   );
 }

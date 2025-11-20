@@ -17,7 +17,7 @@ export function ProductDetailPage() {
   const [recommendended, setRecommended] = useState([]);
   const [quantity, setQuantity] = useState(1);
   const [stockAvail, setStockAvail] = useState(true);
-  const {AddToCart}=useContext(MarketContext)
+  const { AddToCart } = useContext(MarketContext);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -31,28 +31,23 @@ export function ProductDetailPage() {
       .catch((e) => console.error(e));
 
     fetch(
-      `${import.meta.env.VITE_ML_URL}/recommend-products?product_id=${id}&num_recommendations=3`
+      `${import.meta.env.VITE_ML_URL}/recommend-products?product_id=${id}&num_recommendations=3`,
     )
       .then((res) => res.json())
       .then((x) => setRecommended(x))
       .catch((e) => console.error(e));
   }, [id]);
 
-
   //cart={
   // items:[{},{}],
   // totalq=<number>,
   // totalbill=<number>,
-  
-  
 
   return (
     <>
       <Header />
       <div className="min-h-screen w-full px-4 md:px-10 border-2 lg:px-50  m-0">
-        <div
-          className="w-full text-sm text-muted-foreground mt-8"
-        >
+        <div className="w-full text-sm text-muted-foreground mt-8">
           <span>{`${productInfo.brand}/`}</span>
           <span>{`${productInfo.category}/`}</span>
           <span>{productInfo.title}</span>
@@ -60,7 +55,6 @@ export function ProductDetailPage() {
 
         <div className="shadow-xl">
           <div className="flex flex-col md:flex-row w-full h-fit">
-        
             <div className="flex-1 flex items-center justify-center">
               {productInfo?.images?.[0] && (
                 <img
@@ -71,61 +65,65 @@ export function ProductDetailPage() {
               )}
             </div>
 
-          
             <div className="flex-1 flex flex-col gap-5 px-10 p-4">
               <div>
                 <div className="flex justify-between ">
-                    <div
-                  className="text-lg md:text-lg lg:text-2xl font-extrabold">
-                  {productInfo.title}
+                  <div className="text-lg md:text-lg lg:text-2xl font-extrabold">
+                    {productInfo.title}
                   </div>
                   <div className="bg-accent hidden lg:block text-white flex items-center rounded-sm p-1">
                     {productInfo.discountPercentage}% Discount
                   </div>
                 </div>
-              
-      
-                {productInfo.brand && (<div>By {productInfo.brand}</div>)}
+
+                {productInfo.brand && <div>By {productInfo.brand}</div>}
                 <span className="bg-accent lg:hidden text-white flex items-center rounded-sm p-1 w-fit">
-                    {productInfo.discountPercentage}% Discount
-                  </span>
-                  
+                  {productInfo.discountPercentage}% Discount
+                </span>
               </div>
 
               <div className="flex flex-row text-sm justify-between items-center text-muted-foreground">
-                
-
-                  <div className="flex flex-1 justify-between lg:gap-2">
-                    <div className="gap-2 hidden lg:flex">
-                    <div className="font-bold text-black">{productInfo.rating}</div>
+                <div className="flex flex-1 justify-between lg:gap-2">
+                  <div className="gap-2 hidden lg:flex">
+                    <div className="font-bold text-black">
+                      {productInfo.rating}
+                    </div>
                     <div className="">Rating</div>
-                    
-                      <Rating
+
+                    <Rating
                       initialRating={productInfo.rating}
                       readonly
                       emptySymbol={<Star fill="#d4d4d8" stroke="none" />}
-                      fullSymbol={<Star fill="#F3C63F" stroke="none" />}/>
+                      fullSymbol={<Star fill="#F3C63F" stroke="none" />}
+                    />
                   </div>
 
                   <div className=" lg:hidden flex gap-1 text-black">
-                    <span className="font-bold ">{productInfo.rating}</span>Rating</div>
-        
-                      <div className="flex gap-1 text-black">
+                    <span className="font-bold ">{productInfo.rating}</span>
+                    Rating
+                  </div>
+
+                  <div className="flex gap-1 text-black">
                     <span className="font-bold">
                       {productInfo.reviews?.length}
-                    </span>Reviews
+                    </span>
+                    Reviews
                   </div>
                   <div>
-                    <span className="font-bold text-black">{productInfo.stock}</span>{" "}
+                    <span className="font-bold text-black">
+                      {productInfo.stock}
+                    </span>{" "}
                     Stock
                   </div>
                 </div>
-                
               </div>
 
-              <div className="text-2xl md:text-3xl lg:text-4xl font-bold text-black">${productInfo.price}</div>
-              <div className="text-sm md:text-base">{productInfo.description}</div>
-
+              <div className="text-2xl md:text-3xl lg:text-4xl font-bold text-black">
+                ${productInfo.price}
+              </div>
+              <div className="text-sm md:text-base">
+                {productInfo.description}
+              </div>
 
               <div className="flex flex-col gap-5">
                 {!stockAvail && (
@@ -152,7 +150,8 @@ export function ProductDetailPage() {
                       <Button>{quantity}</Button>
                       <Button
                         onClick={() => {
-                          if (quantity < productInfo.stock) setQuantity(quantity + 1);
+                          if (quantity < productInfo.stock)
+                            setQuantity(quantity + 1);
                           else
                             AlertDialog({
                               msg: "Maximum Stock Reached",
@@ -167,7 +166,7 @@ export function ProductDetailPage() {
                     <div className="w-full flex flex-row gap-5 mt-5">
                       <Button
                         className="flex-1 text-primary border border-primary bg-background p-5 hover:bg-muted"
-                        onClick={()=>AddToCart(productInfo,quantity)}
+                        onClick={() => AddToCart(productInfo, quantity)}
                       >
                         <ShoppingCart />
                         <span className="">Add to Cart</span>
@@ -185,15 +184,15 @@ export function ProductDetailPage() {
             </div>
           </div>
 
-  
-          <div className="text-2xl md:text-3xl lg:text-4xl font-semibold px-8 mt-10">Recommended Products</div>
+          <div className="text-2xl md:text-3xl lg:text-4xl font-semibold px-8 mt-10">
+            Recommended Products
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 p-8 gap-8">
             {recommendended.map((item) => (
               <Productcard key={item.id} {...item} />
             ))}
           </div>
 
-        
           <div className="px-10">
             <TabsComponent productInfo={productInfo} />
           </div>

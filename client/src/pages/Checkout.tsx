@@ -3,26 +3,20 @@ import { useNavigate } from "react-router-dom";
 import { Label } from "@radix-ui/react-label";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
-import AmEx from "../assets/AmEx.svg";
-import MasterCard from "../assets/Mastercard.svg"
-import Visa from "../assets/Visa.svg"
 import { Button } from "@/components/ui/button";
-import { MarketContext } from "../context/MarketContext";
 import { Cartbuilder } from "@/components/cartbuilder";
 
 
 export function Checkout(){
     const navigate=useNavigate();
-    
-    const [selectedcard,setcard]=useState(0);
-    const cards=[MasterCard,Visa,AmEx];
+
 
     const cart = JSON.parse(localStorage.getItem("CART")) || { items: [], totalq: 0, totalbill: 0 };
     console.log(cart);
     
     return(
     <>
-    <div className="px-8 mt-5">
+    <div className="px-8 mt-5 bg-[#f3f3f3]/25">
   {
     cart.items.length === 0 ? (
       <div className="text-3xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col justify-center items-center gap-4">
@@ -31,86 +25,59 @@ export function Checkout(){
       </div>
     ) : (
       <>
-        <div className="text-3xl font-bold">Shopping Cart</div>
-        <div className="flex">
-                    <div className="flex my-5 h-[85vh] px-10 w-3/4 overflow-y-scroll">
-                    <Cartbuilder cart={cart}/>
-                    </div>
+        <div className="text-lg md:text-xl lg:text-2xl font-bold">Checkout</div>
+        <div className="flex flex-col  items-center md:flex-row justify-around mt-3 gap-10 lg:px-50  bg-accent/1 text-sm ">
 
-        <div className="flex flex-col shadow-lg p-4 justify-between w-1/4">
-          <div className="text-2xl font-semibold">Payment Method</div>
-
+        <div className="flex flex-col shadow-lg p-4 justify-between shadow-xl bg-white md:h-[65vh] lg:h-[85vh]">
+          <div className="text-lg md:text-xl lg:text-2xl font-semibold">Shipping Information</div>
           <div>
-            <div>Choose</div>
-            <div className="flex gap-3" id="choose">
-              {cards.map((card, idx) => (
-                <div
-                  key={idx}
-                  className={`${
-                    selectedcard === idx
-                      ? "border-2 border-green-500"
-                      : "border border-transparent"
-                  } cursor-pointer rounded-lg p-1 flex items-center justify-center`}
-                  onClick={() => setcard(idx)}
-                >
-                  <img src={card} className="block object-contain" />
-                </div>
-              ))}
-            </div>
+            <Label htmlFor="name" className="font-bold">Full Name</Label>
+            <Input id="name" className="border-2 border-black rounded-none" placeholder="Raghav Sharma" />
           </div>
 
           <div>
-            <Label htmlFor="name">Name on the Card</Label>
-            <Input id="name" placeholder="Raghav Sharma" />
+            <Label htmlFor="email"  className="font-bold">Email Address</Label>
+            <Input required id="email" className="border-2 border-black rounded-none" placeholder="xyz@gmail.com" />
           </div>
 
-          <div>
-            <Label htmlFor="number">Card Number</Label>
-            <Input id="number" placeholder="4111 1111 1111 1111" />
-          </div>
-
-          <div className="flex gap-4">
+         
             <div>
-              <Label htmlFor="expiry">Expiration Date</Label>
-              <Input id="expiry" placeholder="08 / 27" />
+              <Label htmlFor="ph"  className="font-bold">Phone Number</Label>
+              <div className="flex">
+                
+              </div>
+              <Input id="ph" className="border-2 border-black rounded-none" placeholder="+91 9876543210" />
             </div>
-
-            <div>
-              <Label htmlFor="cvv">CVV</Label>
-              <Input id="cvv" placeholder="356" />
-            </div>
-          </div>
-
+          
           <div>
-            <Label htmlFor="address">Delivery Address</Label>
+            <Label htmlFor="address"  className="font-bold">Delivery Address</Label>
             <Textarea
               id="address"
               placeholder="Flat 302, Green Heights Apartments, HSR Layout"
-              className="h-25 overflow-y-auto"
+              className="h-25 overflow-y-auto border-2 border-black rounded-none"
             />
           </div>
 
           <div className="flex gap-4">
             <div>
-              <Label htmlFor="city">City</Label>
-              <Input id="city" placeholder="Bengaluru" />
+              <Label htmlFor="city" className="font-bold">City</Label>
+              <Input id="city" placeholder="Bengaluru" className="border-2 border-black rounded-none" />
+            </div>
+
+             <div>
+              <Label htmlFor="state"  className="font-bold">State</Label>
+              <Input id="state" placeholder="Karnataka" className="border-2 border-black rounded-none" />
             </div>
 
             <div>
-              <Label htmlFor="zip">Pincode</Label>
-              <Input id="zip" placeholder="560102" />
+              <Label htmlFor="zip"  className="font-bold">Pincode</Label>
+              <Input id="zip" placeholder="560102" className="border-2 border-black rounded-none" />
             </div>
           </div>
-
-          <div className="justify-center flex">
-            <Button
-              className="bg-[var(--assertive)] rounded-sm cursor-pointer text-lg"
-              onClick={() => navigate("/payment")}
-            >
-              Proceed to Pay ${Number(cart.totalbill).toFixed(2)}
-            </Button>
-          </div>
         </div>
+        <div className="flex w-fit border-2">
+                    <Cartbuilder cart={cart}/>
+                    </div>
         </div>
         
       </>
