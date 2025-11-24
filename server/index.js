@@ -1,6 +1,5 @@
 import express from 'express';
 import fetch from 'node-fetch';
-import cors from 'cors';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -8,11 +7,6 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const limit = parseInt(process.env.RESULTS_PER_PAGE) || 9;
 
-
-app.use(cors());
-const options = {
-  method: "GET",
-};
 
 const sortMappings = {
   default: { sortBy: "id", order: "asc" },
